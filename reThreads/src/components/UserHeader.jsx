@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, Text, Box, Image, Link } from "@chakra-ui/react";
+import { Button, Flex, Text, Box, Image, Link } from "@chakra-ui/react";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,25 +12,35 @@ const UserHeader = () => {
       rel="noopener noreferrer"
       style={styles.svgLogo}
     >
-      <FontAwesomeIcon size={"2x"} icon={faInstagram} />
+      <FontAwesomeIcon size={"xl"} icon={faInstagram} />
     </Button>
   );
 
   const More = () => (
     <Button style={styles.svgLogo}>
-      <FontAwesomeIcon size="2x" icon={faEllipsis} />
+      <FontAwesomeIcon size={"xl"} icon={faEllipsis} />
     </Button>
   );
 
   return (
-    <Flex flexDirection={"column"}>
+    <Flex flexDirection={"column"} mt={3}>
       <Flex justifyContent={"space-between"}>
-        <Flex flexDirection={"column"}>
-          <Text>Mustafa AmanUllah</Text>
-          <HStack>
+        <Flex flexDirection={"column"} mt={2}>
+          <Text fontSize={"2xl"} fontWeight={"bold"}>
+            Mustafa AmanUllah
+          </Text>
+          <Flex gap={2} alignItems={"center"}>
             <Text>mustafa</Text>
-            <Text>threads.net</Text>
-          </HStack>
+            <Text
+              fontSize={"xs"}
+              bg={"gray.dark"}
+              p={1}
+              borderRadius={"10px"}
+              color={"gray.light"}
+            >
+              threads.net
+            </Text>
+          </Flex>
         </Flex>
         <Box>
           <Image
@@ -40,16 +50,17 @@ const UserHeader = () => {
           />
         </Box>
       </Flex>
-      <Text>
+      <Text maxW={"80%"}>
         Student of software engineering and acing in MERN Stack before my 6th
         Semester.
       </Text>
       <Flex
+        mt={5}
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Flex>
+        <Flex fontSize={"sm"} color={"gray.light"}>
           <Text>1,234 followers</Text>
           <Text>・</Text>
           <Link to="https://youtube.com/@must_f4?si=-iOSHnzYrTKbFAkk">
@@ -62,13 +73,24 @@ const UserHeader = () => {
         </Box>
       </Flex>
       <Flex
-        flexDirection={"row"}
+        mt={5}
+        pb={2}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        justifyContent={"space-around"}
+        flexDirection={"row"}
+        fontWeight={"bold"}
+        borderBottom={"1.5px solid gray"}
+        color={"gray.light"}
       >
-        <Text>Threads</Text>
-        <Text>Replies</Text>
-        <Text>Reposts</Text>
+        <Flex>
+          <Text color={"#FFFFFF"}>Threads</Text>
+        </Flex>
+        <Flex>
+          <Text>Replies</Text>
+        </Flex>
+        <Flex>
+          <Text>Reposts</Text>
+        </Flex>
       </Flex>
     </Flex>
   );
