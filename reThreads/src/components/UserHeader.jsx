@@ -35,7 +35,7 @@ const UserHeader = () => {
               fontSize={"xs"}
               bg={"gray.dark"}
               p={1}
-              borderRadius={"10px"}
+              borderRadius={"xl"}
               color={"gray.light"}
             >
               threads.net
@@ -50,7 +50,7 @@ const UserHeader = () => {
           />
         </Box>
       </Flex>
-      <Text maxW={"80%"}>
+      <Text maxW={"md"}>
         Student of software engineering and acing in MERN Stack before my 6th
         Semester.
       </Text>

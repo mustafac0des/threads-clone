@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
 import UserPage from "./pages/UserPage";
-// import PostPage from "./pages/PostPage";
+import PostPage from "./pages/PostPage";
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/:username" element={<UserPage />} />
-        {/* <Route path="/:username/post/:pid" element={<PostPage />} /> */}
+        <Route path="/:username/post/:pid" element={<PostPage />} />
       </Routes>
     </Container>
   );
