@@ -74,7 +74,7 @@ const Header = () => {
       justifyContent={"space-between"}
     >
       <Threads onClick={toggleColorMode} />
-      <Flex>
+      <Flex gap={1}>
         <Home />
         <Search />
         <Post />

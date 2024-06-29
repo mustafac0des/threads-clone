@@ -1,13 +1,17 @@
 /* eslint-disable react/prop-types */
-import { Flex, Button, Text, Image, Box, Divider } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faComment,
-  faEllipsis,
-  faHeart,
-  faPlus,
-  faShare,
-} from "@fortawesome/free-solid-svg-icons";
+  Flex,
+  Button,
+  Text,
+  Image,
+  Box,
+  Divider,
+  useColorMode,
+} from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import Comment from "../components/Comment";
+import { Actions } from "../components/Actions";
 
 const More = () => (
   <Button h={0} color={"gray.light"}>
@@ -15,43 +19,9 @@ const More = () => (
   </Button>
 );
 
-const Like = (props) => {
-  return (
-    <Button sx={styles.button}>
-      <FontAwesomeIcon size={"lg"} icon={faHeart} />
-
-      <Text fontSize={"xs"} ml={2}>
-        {props.likes}
-      </Text>
-    </Button>
-  );
-};
-
-const Comment = () => {
-  return (
-    <Button sx={styles.button}>
-      <FontAwesomeIcon size={"lg"} icon={faComment} />
-    </Button>
-  );
-};
-
-const Share = () => {
-  return (
-    <Button sx={styles.button}>
-      <FontAwesomeIcon size={"lg"} icon={faShare} />
-    </Button>
-  );
-};
-
-const Repost = () => {
-  return (
-    <Button sx={styles.button}>
-      <FontAwesomeIcon size={"lg"} icon={faPlus} />
-    </Button>
-  );
-};
-
 const PostPage = () => {
+  const { colorMode } = useColorMode();
+
   return (
     <Flex
       w={"2xl"}
@@ -64,6 +34,7 @@ const PostPage = () => {
       gap={2}
       bg={"#181818"}
       flexDirection={"column"}
+      style={{ backgroundColor: colorMode == "dark" ? "#181818" : "#FFFFFF" }}
     >
       <Flex width={"full"} flexDirection={"column"} gap={5}>
         <Flex alignItems={"center"} justifyContent={"space-between"}>
@@ -90,36 +61,51 @@ const PostPage = () => {
           <Image
             src="https://plus.unsplash.com/premium_photo-1663858367001-89e5c92d1e0e?q=80&w=2030&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             mt={2}
+            mb={1}
             borderRadius={"xl"}
             maxH={"sm"}
-            border={"1px solid"}
+            border={"0.25px solid"}
             borderColor={"gray.light"}
           />
-          <Flex gap={2} mt={2} ml={2}>
-            <Like likes={1} />
-            <Comment />
-            <Share />
-            <Repost />
-          </Flex>
+          <Actions likes={9} />
         </Box>
         <Divider />
-        <Text fontWeight={"bold"} ml={1}>
-          Replies
-        </Text>
-        <Divider />
+        <Box>
+          <Text fontWeight={"bold"} ml={1}>
+            Replies
+          </Text>
+          <Divider mt={5} />
+          <Comment
+            image={
+              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
+            }
+            commenterName={"PTiara"}
+            commentedOn={"1h"}
+            comment={"Yummy! <3"}
+            likes={0}
+          />
+          <Comment
+            image={
+              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
+            }
+            commenterName={"PTiara"}
+            commentedOn={"1h"}
+            comment={"Yummy! <3"}
+            likes={0}
+          />
+          <Comment
+            image={
+              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
+            }
+            commenterName={"PTiara"}
+            commentedOn={"1h"}
+            comment={"Yummy! <3"}
+            likes={0}
+          />
+        </Box>
       </Flex>
     </Flex>
   );
-};
-
-const styles = {
-  button: {
-    marginTop: "5px",
-    width: "35px",
-    height: "30px",
-    borderRadius: "10px",
-    backgroundColor: "transparent",
-  },
 };
 
 export default PostPage;
