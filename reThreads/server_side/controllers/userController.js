@@ -78,7 +78,7 @@ const followUnfollow = async (req, res) => {
     const userToModify = await User.findById(id);
     const currentUser = await User.findById(req.user._id);
 
-    if (id === req.user._id) {
+    if (id == req.user._id) {
       return res.status(400).json({ message: "You cannot follow yourself" });
     }
 
@@ -91,7 +91,7 @@ const followUnfollow = async (req, res) => {
     if (modifyFollowings) {
       await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
       await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
-      res.status(200).json({ message: "User followed successfully!" });
+      res.status(200).json({ message: "User followed successfully! " });
     } else {
       await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
       await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
@@ -133,4 +133,30 @@ const updateUser = async (req, res) => {
   }
 };
 
-export { updateUser, loginUser, logoutUser, followUnfollow, signupUser };
+const profileUser = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await User.findOne({ username })
+      .select("-password")
+      .select("-updatedAt");
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found!" });
+    }
+
+    res.status(200).json({ message: "Profile => ", user });
+  } catch (err) {
+    console.error("Error in viewing profile", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export {
+  updateUser,
+  loginUser,
+  logoutUser,
+  followUnfollow,
+  signupUser,
+  profileUser,
+};

@@ -17,7 +17,6 @@ const protectRoute = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.error("Error in follow/unfollow:", err);
     res.status(500).json({ message: err.message });
   }
 };
