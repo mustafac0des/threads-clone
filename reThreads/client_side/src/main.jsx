@@ -14,21 +14,22 @@ const config = {
 
 const styles = {
   global: (props) => ({
-    body: {
-      color: mode("#101010", "#FAFAFA")(props),
-      bg: mode("#FAFAFA", "#101010")(props),
+    ".background": {
+      backgroundColor: mode("#FAFAFA !important", "#0A0A0A !important")(props),
+    },
+    ".container": {
+      backgroundColor: mode("#FFFFFF !important", "#181818 !important")(props),
+    },
+    ".text": {
+      color: mode("#000000 !important", "#FDF5F7 !important")(props),
+    },
+    ".icon": {
+      color: mode("#999999 !important", "#999999 !important")(props),
     },
   }),
 };
 
-const colors = {
-  gray: {
-    light: "#616161",
-    dark: "#1e1e1e",
-  },
-};
-
-const theme = extendTheme({ config, styles, colors });
+const theme = extendTheme({ config, styles });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -38,5 +39,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

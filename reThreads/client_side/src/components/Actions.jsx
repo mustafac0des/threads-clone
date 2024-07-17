@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Flex, Button, Text } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -11,46 +11,35 @@ import { useState } from "react";
 
 const Like = (props) => {
   return (
-    <Button
-      sx={styles.button}
-      onClick={props.setLiked}
-      textAlign={"center"}
-      pl={2}
-    >
+    <Button sx={styles.button} onClick={props.setLiked} textAlign={"center"}>
       <FontAwesomeIcon
         size={"md"}
         icon={faHeart}
         color={props.liked ? "#FF0000" : ""}
       />
-
-      {props.likes > 0 && (
-        <Text fontSize={"xs"} ml={1}>
-          {props.likes}
-        </Text>
-      )}
     </Button>
   );
 };
 
-const Comment = () => {
+const Comment = (props) => {
   return (
-    <Button sx={styles.button}>
+    <Button sx={styles.button} onClick={props.comment}>
       <FontAwesomeIcon size={"md"} icon={faComment} />
     </Button>
   );
 };
 
-const Share = () => {
+const Share = (props) => {
   return (
-    <Button sx={styles.button}>
+    <Button sx={styles.button} onClick={props.share}>
       <FontAwesomeIcon size={"md"} icon={faShare} />
     </Button>
   );
 };
 
-const Repost = () => {
+const Repost = (props) => {
   return (
-    <Button sx={styles.button}>
+    <Button sx={styles.button} onClick={props.repost}>
       <FontAwesomeIcon size={"md"} icon={faPlus} />
     </Button>
   );
@@ -74,10 +63,11 @@ export const Actions = (props) => {
 
 const styles = {
   button: {
-    marginTop: "5px",
-    width: "auto",
+    w: "4px",
+    h: "4px",
+    mt: "5px",
     height: "30px",
-    borderRadius: "10px",
-    backgroundColor: "transparent",
+    borderRadius: "full",
+    bg: "transparent",
   },
 };
