@@ -18,12 +18,11 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
   Textarea,
 } from "@chakra-ui/react";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FeedbackPost from "../components/FeedPost";
+import FeedbackPost from "../components/UserPost";
 
 const FeedMenu = () => {
   return (
@@ -41,32 +40,32 @@ const FeedMenu = () => {
         fontWeight={600}
         border={"1px solid #616161"}
         borderRadius={10}
-        bg={"#1A1A1A"}
+        className={"background"}
       >
         <MenuItem
           bg={"transparent"}
-          _hover={{ bg: "#616161" }}
+          _hover={{ fontWeight: "600" }}
           borderRadius={3}
         >
           For you
         </MenuItem>
         <MenuItem
           bg={"transparent"}
-          _hover={{ bg: "#616161" }}
+          _hover={{ fontWeight: "600" }}
           borderRadius={3}
         >
           Following
         </MenuItem>
         <MenuItem
           bg={"transparent"}
-          _hover={{ bg: "#616161" }}
+          _hover={{ fontWeight: "600" }}
           borderRadius={3}
         >
           Liked
         </MenuItem>
         <MenuItem
           bg={"transparent"}
-          _hover={{ bg: "#616161" }}
+          _hover={{ fontWeight: "600" }}
           borderRadius={3}
         >
           Saved
@@ -120,19 +119,13 @@ const Post = (props) => {
                   </Text>
                   <Textarea
                     placeholder="Start a thread..."
-                    resize="none"
+                    resize={"none"}
                     mt={-2}
                     p={0}
                     border={0}
                     _focus={{ boxShadow: "none" }}
                     size="xs"
                     maxLength={400}
-                    minHeight="40px" // Set a minimum height to prevent collapsing
-                    css={{
-                      resize: "none", // Disable manual resizing
-                      overflowY: "hidden", // Hide overflow to prevent scrollbars
-                      lineHeight: "1.2", // Adjust line height for readability
-                    }}
                   />
                 </Stack>
               </Stack>
@@ -140,7 +133,8 @@ const Post = (props) => {
           </ModalBody>
           <ModalFooter w={"auto"} h={"auto"} p={0}>
             <Button
-              m={5}
+              mb={3}
+              mr={3}
               size={"sm"}
               fontSize={13}
               border={"1px solid #999999"}
@@ -177,7 +171,7 @@ const FeedPage = () => {
         </Box>
       </Flex>
       <Container
-        minW={"720"}
+        minW={"720px"}
         minH={"100vh"}
         mt={5}
         borderRadius={"25"}

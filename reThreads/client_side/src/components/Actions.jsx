@@ -48,7 +48,7 @@ const Repost = (props) => {
 export const Actions = (props) => {
   const [liked, setLiked] = useState(false);
   return (
-    <Flex gap={1}>
+    <Flex ml={-2.5} gap={1}>
       <Like
         likes={props.likes + (liked ? 1 : 0)}
         setLiked={() => setLiked(!liked)}

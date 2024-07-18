@@ -29,7 +29,13 @@ import { Link } from "react-router-dom";
 
 const NavButton = (props, { onClick }) => {
   return (
-    <Button sx={styles.button} onClick={onClick} className={"icon"}>
+    <Button
+      w={"50px"}
+      h={"50px"}
+      bg={"unset"}
+      onClick={onClick}
+      className={"icon"}
+    >
       <FontAwesomeIcon size={"xl"} icon={props.icon} className={"text"} />
     </Button>
   );
@@ -39,7 +45,7 @@ const HeaderMenu = () => {
   const { toggleColorMode } = useColorMode();
   return (
     <Menu>
-      <MenuButton>
+      <MenuButton onClick={toggleColorMode}>
         <NavButton icon={faBars} />
       </MenuButton>
       <MenuList
@@ -50,8 +56,8 @@ const HeaderMenu = () => {
         borderRadius={10}
         className={"background"}
       >
-        <MenuGroup title={"Appearance"} bg={"transparent"}>
-          <MenuItem borderRadius={3} bg={"transparent"}>
+        <MenuGroup title={"Appearance"}>
+          <MenuItem borderRadius={3} bg={"unset"}>
             <ButtonGroup
               isAttached
               flex={1}
@@ -59,10 +65,10 @@ const HeaderMenu = () => {
               borderRadius={5}
             >
               <Button flex={1}>
-                <FontAwesomeIcon icon={faSun} onClick={toggleColorMode} />
+                <FontAwesomeIcon icon={faSun} />
               </Button>
               <Button flex={1}>
-                <FontAwesomeIcon icon={faMoon} onClick={toggleColorMode} />
+                <FontAwesomeIcon icon={faMoon} />
               </Button>
               <Button flex={1} onClick={() => {}}>
                 <Text>Auto</Text>
@@ -71,18 +77,18 @@ const HeaderMenu = () => {
           </MenuItem>
         </MenuGroup>
         <MenuDivider />
-        <MenuGroup bg={"transparent"}>
+        <MenuGroup bg={"unset"}>
           <MenuItem
             borderRadius={3}
-            bg={"transparent"}
-            _hover={{ bg: "#616161" }}
+            bg={"unset"}
+            _hover={{ fontWeight: "600" }}
           >
             Report a problem
           </MenuItem>
           <MenuItem
             borderRadius={3}
-            bg={"transparent"}
-            _hover={{ bg: "#616161" }}
+            bg={"unset"}
+            _hover={{ fontWeight: "600" }}
           >
             Logout
           </MenuItem>
@@ -93,7 +99,6 @@ const HeaderMenu = () => {
 };
 
 const Header = () => {
-  // write a logged in button for the plus
   const isLoggedIn = true;
 
   return (
@@ -130,19 +135,11 @@ const Header = () => {
           border={"1px solid #616161"}
           borderRadius={15}
         >
-          <FontAwesomeIcon size={"2xl"} icon={faPlus} style={styles.faIcon} />
+          <FontAwesomeIcon size={"2xl"} icon={faPlus} />
         </Button>
       )}
     </Flex>
   );
-};
-
-const styles = {
-  button: {
-    width: "50px",
-    height: "50px",
-    backgroundColor: "transparent",
-  },
 };
 
 export default Header;
