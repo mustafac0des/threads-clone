@@ -46,8 +46,6 @@ const AuthPage = () => {
     if (password !== newConfirmPassword) {
       return;
     }
-
-    // call made to server_site with parameters
   }
 
   return (

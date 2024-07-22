@@ -24,7 +24,7 @@ const PostPage = () => {
 
   return (
     <Flex
-      w={"2xl"}
+      w={"768px"}
       mt={5}
       mx={1}
       p={5}
@@ -75,33 +75,7 @@ const PostPage = () => {
             Replies
           </Text>
           <Divider mt={5} />
-          <Comment
-            image={
-              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
-            }
-            commenterName={"PTiara"}
-            commentedOn={"1h"}
-            comment={"Yummy! <3"}
-            likes={0}
-          />
-          <Comment
-            image={
-              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
-            }
-            commenterName={"PTiara"}
-            commentedOn={"1h"}
-            comment={"Yummy! <3"}
-            likes={0}
-          />
-          <Comment
-            image={
-              "https://i.pinimg.com/736x/84/ef/2f/84ef2f73675b0e8c840a56184059f8bc.jpg"
-            }
-            commenterName={"PTiara"}
-            commentedOn={"1h"}
-            comment={"Yummy! <3"}
-            likes={0}
-          />
+          <Comment />
         </Box>
       </Flex>
     </Flex>

@@ -10,20 +10,20 @@ import PostPage from "./pages/PostPage";
 
 const App = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname.startsWith("/auth");
+  const isAuthPage = location.pathname.match("/auth");
 
   return (
     <Container
-      minW={["full", "480px", "768px", "992px", "1280px", "1536px"]}
+      minW={["full", "480px", "576px", "768px", "992px", "1280px"]}
       centerContent
       className={"background"}
     >
       {!isAuthPage && <Header />}
       <Routes>
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="" element={<FeedPage />} />
-        <Route path="/:username" element={<UserPage />} />
-        <Route path="/:username/post/:pid" element={<PostPage />} />
+        <Route path={"/auth"} element={<AuthPage />} />
+        <Route path={"/"} element={<FeedPage />} />
+        <Route path={"/:username"} element={<UserPage />} />
+        <Route path={"/:username/post/:pid"} element={<PostPage />} />
       </Routes>
     </Container>
   );

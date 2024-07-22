@@ -13,8 +13,8 @@ const Like = (props) => {
   return (
     <Button sx={styles.button} onClick={props.setLiked} textAlign={"center"}>
       <FontAwesomeIcon
-        size={"md"}
         icon={faHeart}
+        width={["10px", "12px", "15px"]}
         color={props.liked ? "#FF0000" : ""}
       />
     </Button>
@@ -24,7 +24,7 @@ const Like = (props) => {
 const Comment = (props) => {
   return (
     <Button sx={styles.button} onClick={props.comment}>
-      <FontAwesomeIcon size={"md"} icon={faComment} />
+      <FontAwesomeIcon width={["10px", "12px", "15px"]} icon={faComment} />
     </Button>
   );
 };
@@ -32,7 +32,7 @@ const Comment = (props) => {
 const Share = (props) => {
   return (
     <Button sx={styles.button} onClick={props.share}>
-      <FontAwesomeIcon size={"md"} icon={faShare} />
+      <FontAwesomeIcon width={["10px", "12px", "15px"]} icon={faShare} />
     </Button>
   );
 };
@@ -40,7 +40,7 @@ const Share = (props) => {
 const Repost = (props) => {
   return (
     <Button sx={styles.button} onClick={props.repost}>
-      <FontAwesomeIcon size={"md"} icon={faPlus} />
+      <FontAwesomeIcon width={["10px", "12px", "15px"]} icon={faPlus} />
     </Button>
   );
 };
@@ -48,7 +48,7 @@ const Repost = (props) => {
 export const Actions = (props) => {
   const [liked, setLiked] = useState(false);
   return (
-    <Flex ml={-2.5} gap={1}>
+    <Flex ml={"-15px"} gap={1}>
       <Like
         likes={props.likes + (liked ? 1 : 0)}
         setLiked={() => setLiked(!liked)}
@@ -63,11 +63,9 @@ export const Actions = (props) => {
 
 const styles = {
   button: {
-    w: "4px",
-    h: "4px",
-    mt: "5px",
-    height: "30px",
+    h: "30px",
+    mt: ["3px", "4px", "5px"],
     borderRadius: "full",
-    bg: "transparent",
+    bg: "unset",
   },
 };

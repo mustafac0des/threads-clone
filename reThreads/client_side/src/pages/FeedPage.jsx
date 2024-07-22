@@ -22,14 +22,15 @@ import {
 } from "@chakra-ui/react";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FeedbackPost from "../components/UserPost";
+import UserPost from "../components/UserPost";
 
 const FeedMenu = () => {
   return (
-    <Menu bg={"transparent"}>
+    <Menu>
       <MenuButton
         as={Button}
         size={"xs"}
+        p={0}
         border={"1px solid #616161"}
         borderRadius={"full"}
       >
@@ -37,10 +38,11 @@ const FeedMenu = () => {
       </MenuButton>
       <MenuList
         p={1}
+        fontSize={["12px", "13px", "14px"]}
         fontWeight={600}
         border={"1px solid #616161"}
         borderRadius={10}
-        className={"background"}
+        className={"container"}
       >
         <MenuItem
           bg={"transparent"}
@@ -82,7 +84,7 @@ const Post = (props) => {
         src={
           "https://yt3.ggpht.com/gtKyyf28tXVtyjap_Oy8GhJoPh9KewrudUjjdDSEgSu7BI0fDsTwGsqlu_VekNt0xUqgeX0YLg=s88-c-k-c0x00ffffff-no-rj"
         }
-        w={"40px"}
+        w={["25px", "30px", "35px", "40px"]}
         border={"1px solid #999999"}
         borderRadius={"full"}
       />
@@ -91,12 +93,15 @@ const Post = (props) => {
       </Text>
       <Modal isOpen={props.isOpen} onClose={props.onClose} isCentered>
         <ModalOverlay />
-        <ModalContent borderRadius={15} className={"container"}>
+        <ModalContent
+          borderRadius={["10px", "12px", "15px", "20px"]}
+          className={"container"}
+        >
           <ModalBody m={0} pl={0}>
-            <Container my={2}>
-              <Stack direction={"row"} spacing={3}>
+            <Container my={["1px", "2px", "3px"]}>
+              <Stack direction={"row"} spacing={["6px", "8px", "10px", "12px"]}>
                 <Stack direction={"column"} alignItems={"center"}>
-                  <Box w={"40px"} className={"icon"}>
+                  <Box w={["25px", "30px", "35px", "40px"]} className={"icon"}>
                     <Image
                       src={
                         props.profilePicture ||
@@ -108,37 +113,36 @@ const Post = (props) => {
                   </Box>
                   <Divider
                     orientation={"vertical"}
-                    w={0}
-                    minH={"20px"}
-                    borderWidth={"2px"}
+                    minH={"30px"}
+                    borderWidth={["1px", "1px", "2px"]}
                   />
                 </Stack>
                 <Stack w={"full"} direction={"column"}>
                   <Text fontSize={13} fontWeight={600}>
-                    {props.name || "Mustafa"}
+                    {props.name || "404"}
                   </Text>
                   <Textarea
-                    placeholder="Start a thread..."
+                    placeholder={"Start a thread..."}
                     resize={"none"}
-                    mt={-2}
+                    mt={-1}
                     p={0}
                     border={0}
                     _focus={{ boxShadow: "none" }}
-                    size="xs"
+                    fontSize={"12px"}
                     maxLength={400}
                   />
                 </Stack>
               </Stack>
             </Container>
           </ModalBody>
-          <ModalFooter w={"auto"} h={"auto"} p={0}>
+          <ModalFooter p={0}>
             <Button
               mb={3}
               mr={3}
               size={"sm"}
               fontSize={13}
               border={"1px solid #999999"}
-              borderRadius={"10px"}
+              borderRadius={["7px", "8px", "9px", "10px"]}
               className={"background"}
               onClick={props.onClose}
             >
@@ -155,34 +159,30 @@ const FeedPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex
-      mt={5}
+      mt={[1, 2, 3, 4, 5, 6, 7]}
       alignItems={"center"}
-      justifyContent={"center"}
       flexDirection={"column"}
       overflow={"hidden"}
       className={"text"}
     >
-      <Flex alignItems={"center"} gap={3}>
-        <Box>
-          <Text fontWeight={600}>For You</Text>
-        </Box>
-        <Box>
-          <FeedMenu />
-        </Box>
+      <Flex gap={["3px", "5px", "7px"]}>
+        <Text fontSize={["12px", "13px", "14px", "15px"]} fontWeight={600}>
+          For You
+        </Text>
+        <FeedMenu />
       </Flex>
       <Container
-        minW={"720px"}
-        minH={"100vh"}
-        mt={5}
+        minW={["full", "480px", "576px", "720px"]}
+        mt={[1, 2, 3, 4, 5, 6, 7]}
         borderRadius={"25"}
         border={"1px solid #616161"}
-        centerContent
+        left={0}
         className={"container"}
       >
         <Flex
           w={"full"}
-          my={5}
-          px={5}
+          my={[1, 2, 3, 4, 5, 6, 7]}
+          px={[1, 2, 3, 4, 5, 6, 7]}
           alignItems={"center"}
           justifyContent={"space-between"}
           onClick={onOpen}
@@ -191,24 +191,27 @@ const FeedPage = () => {
             <Post isOpen={isOpen} onClose={onClose} />
           </Box>
           <Button
-            w={"60px"}
-            h={"35px"}
+            w={["36px", "48px", "60px"]}
+            h={["21px", "28px", "35px"]}
+            fontSize={["12px", "13px", "14px", "15px"]}
             className={"container"}
             border={"1px solid #999999"}
-            borderRadius={12}
+            borderRadius={"12px"}
           >
             Post
           </Button>
         </Flex>
-        <Divider minW={"110%"} />
-        <FeedbackPost
-          profilePicture={""}
-          uploadTime={"1h"}
-          text={""}
-          image={
-            "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-        />
+        <Divider />
+        <Box mx={[1, 2, 3]}>
+          <UserPost
+            profilePicture={""}
+            uploadTime={"1h"}
+            text={""}
+            image={
+              "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+          />
+        </Box>
       </Container>
     </Flex>
   );

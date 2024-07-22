@@ -5,18 +5,57 @@ import {
   Stack,
   Text,
   Button,
-  Flex,
   Divider,
+  MenuButton,
+  Menu,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookmark,
+  faEllipsis,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Actions } from "./Actions";
 
+const More = (props) => {
+  const isLoggedIn = true;
+
+  return (
+    <Menu>
+      <Button as={MenuButton} h={5} p={0} bg={"unset"} borderRadius={"full"}>
+        <FontAwesomeIcon width={["10px", "12px", "15px"]} icon={faEllipsis} />
+      </Button>
+      <MenuList className={"background"}>
+        <MenuItem
+          bg={"unset"}
+          _hover={{ fontWeight: "600" }}
+          justifyContent={"space-between"}
+        >
+          <Text>{props.isSaved ? "Unsave" : "Save"}</Text>
+          <FontAwesomeIcon icon={props.isSaved ? faBookmark : faBookmark} />
+        </MenuItem>
+        {isLoggedIn && (
+          <MenuItem
+            bg={"unset"}
+            _hover={{ fontWeight: "600" }}
+            justifyContent={"space-between"}
+          >
+            <Text>Delete</Text>
+            <FontAwesomeIcon icon={faTrash} />
+          </MenuItem>
+        )}
+      </MenuList>
+    </Menu>
+  );
+};
+
 const UserPost = (props) => {
   return (
-    <Box overflow={"hidden"}>
-      <Stack direction={"row"} spacing={3} alignItems={"flex-start"}>
-        <Box w={"45px"} className={"icon"}>
+    <Box w={"full"} mt={[3, 4, 5]}>
+      <Stack direction={"row"} spacing={[1, 2, 3]}>
+        <Box w={["32px", "35px", "38px"]} className={"icon"}>
           <Image
             src={
               props.profilePicture ||
@@ -26,35 +65,44 @@ const UserPost = (props) => {
             borderRadius={"full"}
           />
         </Box>
-        <Stack w={"full"} direction={"column"}>
-          <Flex justifyContent={"space-between"}>
-            <Stack direction={"row"}>
-              <Text fontWeight={600}>{props.name || "404"}</Text>
-              <Text fontWeight={200} className={"icon"}>
-                {props.uploadTime || "0s"}
-              </Text>
+        <Box w={"full"}>
+          <Stack direction={"column"}>
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Stack
+                direction={"row"}
+                fontSize={["12px", "13px", "14px", "15px"]}
+              >
+                <Text fontWeight={600}>{props.name || "404"}</Text>
+                <Text fontWeight={200} className={"icon"}>
+                  {props.uploadTime || "0s"}
+                </Text>
+              </Stack>
+              <More />
             </Stack>
-            <Button h={7} right={0} bg={"unset"} borderRadius={"full"}>
-              <FontAwesomeIcon icon={faEllipsis} />
-            </Button>
-          </Flex>
-          <Box mt={-2} fontSize={13}>
-            <Text>{props.text || "404"}</Text>
-            {props.image ? (
-              <Image
-                src={props.image}
-                maxH={300}
-                mt={2}
-                objectFit={"cover"}
-                border={"1px solid #999999"}
-                borderRadius={5}
-              />
-            ) : null}
-            <Actions />
-          </Box>
-        </Stack>
+            <Box mt={-2} fontSize={13}>
+              <Text fontSize={["10px", "11px", "12px", "13px"]}>
+                {props.text || "404"}
+              </Text>
+              {props.image ? (
+                <Image
+                  src={props.image}
+                  maxH={["200px", "250px", "300px"]}
+                  mt={2}
+                  objectFit={"cover"}
+                  border={"1px solid #999999"}
+                  borderRadius={5}
+                />
+              ) : null}
+              <Actions />
+            </Box>
+          </Stack>
+        </Box>
       </Stack>
-      <Divider my={2} />
+      <Divider mt={2} />
     </Box>
   );
 };

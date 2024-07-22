@@ -12,6 +12,7 @@ import {
   Stack,
   useColorMode,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThreads } from "@fortawesome/free-brands-svg-icons";
@@ -103,20 +104,27 @@ const Header = () => {
 
   return (
     <Flex
-      h={"98vh"}
-      mt={2}
-      ml={2}
+      w={["full", "full", "full", "auto"]}
+      h={["5vh", "5vh", "5vh", "100vh"]}
+      pt={"2px"}
+      pl={"2px"}
+      pr={"2px"}
+      pb={"10px"}
       position={"Fixed"}
-      left={0}
-      flexDirection={"column"}
+      left={["auto", "auto", "auto", "0px"]}
+      bottom={["0px", "0px", "0px", "auto"]}
+      flexDirection={["row", "row", "row", "column"]}
       alignItems={"center"}
       justifyContent={"space-between"}
+      className={"background"}
     >
       <NavButton icon={faThreads} />
-      <Stack>
+      <Stack direction={["row", "row", "row", "column"]}>
         <NavButton icon={faHouse} />
         <NavButton icon={faSearch} />
-        {!isLoggedIn && <NavButton icon={faPlus} />}
+        <Box display={["block", "block", "block", "none"]}>
+          <NavButton icon={faPlus} />
+        </Box>
         <NavButton icon={faHeart} />
         <Link to={"/mustafa"}>
           <NavButton icon={faUser} />
@@ -127,8 +135,9 @@ const Header = () => {
       </Stack>
       {isLoggedIn && (
         <Button
-          w={110}
-          h={20}
+          visibility={["hidden", "hidden", "hidden", "visible"]}
+          w={"100px"}
+          h={"80px"}
           position={"fixed"}
           bottom={10}
           right={10}
