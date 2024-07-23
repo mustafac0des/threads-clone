@@ -17,36 +17,57 @@ import { faThreads } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 
 const AuthPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [userInputs, setUserInputs] = useState({
+    username: "",
+    password: "",
+  });
 
-  const loginIsDisabled = !username || !password;
+  const loginIsDisabled = !userInputs.username || !userInputs.password;
 
-  const [newName, setNewName] = useState("");
-  const [newUsername, setNewUsername] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [newUserInputs, setNewUserInputs] = useState({
+    name: "",
+    username: "",
+    password: "",
+  });
+
   const [newConfirmPassword, setNewConfirmPassword] = useState("");
 
   const signupIsDisabled =
-    !newUsername || !newPassword || !newConfirmPassword || !newName;
+    !newUserInputs.username ||
+    !newUserInputs.password ||
+    !newConfirmPassword ||
+    !newUserInputs.name;
 
-  function loginUser() {
+  function signIn() {
     // login user
   }
 
-  function signUpUser() {
-    if (newName < 3 || newName > 15) {
+  const signUp = async () => {
+    if (newUserInputs.name.length < 3 || newUserInputs.name.length > 15) {
+      return;
+    }
+    if (newUserInputs.password.length < 8) {
+      return;
+    }
+    if (newUserInputs.password !== newConfirmPassword) {
       return;
     }
 
-    if (password.length < 8) {
-      return;
-    }
+    try {
+      const res = await fetch("/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUserInputs),
+      });
 
-    if (password !== newConfirmPassword) {
-      return;
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error("Error in sign up user:", err);
     }
-  }
+  };
 
   return (
     <Container minW={"full"} centerContent>
@@ -72,7 +93,7 @@ const AuthPage = () => {
       >
         <TabList>
           <Tab color={"#FFFFFF"} fontSize={[10, 12, 15, 17]}>
-            Log in
+            Sign in
           </Tab>
           <Tab color={"#FFFFFF"} fontSize={[10, 12, 15, 17]}>
             Sign up
@@ -84,28 +105,31 @@ const AuthPage = () => {
               <Input
                 placeholder={"Username*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
+                className={"container"}
                 size={["sm", "md", "lg"]}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={userInputs.username}
+                onChange={(e) =>
+                  setUserInputs({ ...userInputs, username: e.target.value })
+                }
               />
               <Input
                 placeholder={"Password*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                className={"container"}
+                value={userInputs.password}
+                onChange={(e) =>
+                  setUserInputs({ ...userInputs, password: e.target.value })
+                }
               />
               <Button
                 borderRadius={[10, 12, 15]}
-                bgColor={"#FFFFFF"}
-                color={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
                 isDisabled={loginIsDisabled}
-                onClick={loginUser}
+                className={"background"}
+                onClick={signIn}
               >
-                Log in
+                Sign in
               </Button>
             </Stack>
           </TabPanel>
@@ -114,42 +138,56 @@ const AuthPage = () => {
               <Input
                 placeholder={"Name*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
+                className={"container"}
+                value={newUserInputs.name}
+                onChange={(e) =>
+                  setNewUserInputs({
+                    ...newUserInputs,
+                    name: e.target.value,
+                  })
+                }
               />
               <Input
                 placeholder={"Username*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
-                value={newUsername}
-                onChange={(e) => setNewUsername(e.target.value)}
+                className={"container"}
+                value={newUserInputs.username}
+                onChange={(e) =>
+                  setNewUserInputs({
+                    ...newUserInputs,
+                    username: e.target.value,
+                  })
+                }
               />
               <Input
                 placeholder={"Password*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                className={"container"}
+                value={newUserInputs.password}
+                onChange={(e) =>
+                  setNewUserInputs({
+                    ...newUserInputs,
+                    password: e.target.value,
+                  })
+                }
               />
               <Input
                 placeholder={"Confirm password*"}
                 borderRadius={[10, 12, 15]}
-                bgColor={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
+                className={"container"}
                 value={newConfirmPassword}
                 onChange={(e) => setNewConfirmPassword(e.target.value)}
               />
               <Button
                 borderRadius={[10, 12, 15]}
-                bgColor={"#FFFFFF"}
-                color={"#1E1E1E"}
                 size={["sm", "md", "lg"]}
+                className={"background"}
                 isDisabled={signupIsDisabled}
-                onClick={signUpUser}
+                onClick={signUp}
               >
                 Sign up
               </Button>
