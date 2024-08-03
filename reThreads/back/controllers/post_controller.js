@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 
-const post = async (req, res) => {
+const post_create = async (req, res) => {
   const { postedBy, text, img } = req.body;
 
   try {
@@ -36,7 +36,7 @@ const post = async (req, res) => {
   }
 };
 
-const getPost = async (req, res) => {
+const post_get = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -50,7 +50,28 @@ const getPost = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {
+const post_feed = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const following = user.following;
+
+    const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json(feedPosts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const post_delete = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -69,7 +90,7 @@ const deletePost = async (req, res) => {
   }
 };
 
-const likePost = async (req, res) => {
+const post_like = async (req, res) => {
   try {
     const postId = await Post.findById(req.params.id);
     const userId = req.user._id;
@@ -97,7 +118,7 @@ const likePost = async (req, res) => {
   }
 };
 
-const replyPost = async (req, res) => {
+const post_reply = async (req, res) => {
   try {
     const { text } = req.body;
     const postId = await Post.findById(req.params.id);
@@ -111,7 +132,7 @@ const replyPost = async (req, res) => {
 
     await Post.updateOne(
       { _id: postId },
-      { $push: { replies: { userId, text } } }
+      { $push: { replies: { userId, text } } },
     );
     await post.save();
 
@@ -121,25 +142,4 @@ const replyPost = async (req, res) => {
   }
 };
 
-const feedPost = async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found!" });
-    }
-
-    const following = user.following;
-
-    const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({
-      createdAt: -1,
-    });
-
-    res.status(200).json(feedPosts);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-export { post, getPost, deletePost, likePost, replyPost, feedPost };
+export { post_create, post_get, post_feed, post_like, post_reply, post_delete };

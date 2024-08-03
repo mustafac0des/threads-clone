@@ -1,11 +1,11 @@
 import {
   Container,
+  Stack,
   Tab,
   Tabs,
   TabList,
-  TabPanels,
   TabPanel,
-  Stack,
+  TabPanels,
 } from "@chakra-ui/react";
 import UserHeader from "../components/UserHeader";
 import UserPost from "../components/UserPost";

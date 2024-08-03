@@ -1,57 +1,97 @@
 import {
   Box,
+  Button,
   Container,
   Image,
+  Input,
   Tabs,
+  Stack,
   Tab,
   TabList,
-  TabPanels,
   TabPanel,
-  Input,
-  Stack,
-  Button,
+  TabPanels,
   Text,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThreads } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
+import useCustomToast from "../hooks/useCustomToast";
+import { useSetRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const AuthPage = () => {
-  const [userInputs, setUserInputs] = useState({
+  const showToast = useCustomToast();
+
+  const [user_inputs, set_user_inputs] = useState({
     username: "",
     password: "",
   });
 
-  const loginIsDisabled = !userInputs.username || !userInputs.password;
-
-  const [newUserInputs, setNewUserInputs] = useState({
+  const [new_user_inputs, set_new_user_inputs] = useState({
     name: "",
     username: "",
     password: "",
   });
 
-  const [newConfirmPassword, setNewConfirmPassword] = useState("");
+  const [confirm_password, set_confirm_password] = useState("");
 
-  const signupIsDisabled =
-    !newUserInputs.username ||
-    !newUserInputs.password ||
-    !newConfirmPassword ||
-    !newUserInputs.name;
+  const setUser = useSetRecoilState(userAtom);
 
-  function signIn() {
-    // login user
-  }
+  const sign_in = async () => {
+    if (user_inputs.username === "" || user_inputs.password === "") {
+      return showToast("Fill in both fields!", "info");
+    }
 
-  const signUp = async () => {
-    if (newUserInputs.name.length < 3 || newUserInputs.name.length > 15) {
-      return;
+    showToast("Signing in!", "info");
+
+    try {
+      const res = await fetch("/api/users/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user_inputs),
+      });
+
+      const data = await res.json();
+
+      if (data.status === 200) {
+        showToast(data.message, "success");
+        localStorage.setItem("user-threads", JSON.stringify(data.user));
+        setUser(data.user);
+      } else if (data.status === 400) {
+        showToast(data.message, "warning");
+      } else {
+        showToast(data.message, "error");
+      }
+    } catch {
+      showToast("Error while fetching!", "error");
     }
-    if (newUserInputs.password.length < 8) {
-      return;
+  };
+
+  const sign_up = async () => {
+    if (
+      new_user_inputs.name.length < 3 ||
+      new_user_inputs.name.length > 15 ||
+      new_user_inputs.password.length < 8
+    ) {
+      return showToast({
+        title: "Fill in the fields as per the requirements!",
+        status: "warning",
+      });
     }
-    if (newUserInputs.password !== newConfirmPassword) {
-      return;
+
+    if (new_user_inputs.password !== confirm_password) {
+      return showToast({
+        title: "Passwords don't match!",
+        status: "warning",
+      });
     }
+
+    showToast({
+      title: "Creating account...",
+      status: "info",
+    });
 
     try {
       const res = await fetch("/api/users/signup", {
@@ -59,13 +99,27 @@ const AuthPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newUserInputs),
+        body: JSON.stringify(new_user_inputs),
       });
 
       const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error("Error in sign up user:", err);
+
+      if (data.status === 200) {
+        showToast({
+          title: data.message,
+          status: "success",
+        });
+      } else {
+        showToast({
+          title: data.message,
+          status: "error",
+        });
+      }
+    } catch {
+      showToast({
+        title: "Error while fetching! Try again.",
+        status: "error",
+      });
     }
   };
 
@@ -107,9 +161,9 @@ const AuthPage = () => {
                 borderRadius={[10, 12, 15]}
                 className={"container"}
                 size={["sm", "md", "lg"]}
-                value={userInputs.username}
+                value={user_inputs.username}
                 onChange={(e) =>
-                  setUserInputs({ ...userInputs, username: e.target.value })
+                  set_user_inputs({ ...user_inputs, username: e.target.value })
                 }
               />
               <Input
@@ -117,17 +171,16 @@ const AuthPage = () => {
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
                 className={"container"}
-                value={userInputs.password}
+                value={user_inputs.password}
                 onChange={(e) =>
-                  setUserInputs({ ...userInputs, password: e.target.value })
+                  set_user_inputs({ ...user_inputs, password: e.target.value })
                 }
               />
               <Button
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
-                isDisabled={loginIsDisabled}
-                className={"background"}
-                onClick={signIn}
+                className={"icon"}
+                onClick={sign_in}
               >
                 Sign in
               </Button>
@@ -136,14 +189,14 @@ const AuthPage = () => {
           <TabPanel>
             <Stack spacing={2}>
               <Input
-                placeholder={"Name*"}
+                placeholder={"Name (3 or more characters)*"}
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
                 className={"container"}
-                value={newUserInputs.name}
+                value={new_user_inputs.name}
                 onChange={(e) =>
-                  setNewUserInputs({
-                    ...newUserInputs,
+                  set_new_user_inputs({
+                    ...new_user_inputs,
                     name: e.target.value,
                   })
                 }
@@ -153,23 +206,23 @@ const AuthPage = () => {
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
                 className={"container"}
-                value={newUserInputs.username}
+                value={new_user_inputs.username}
                 onChange={(e) =>
-                  setNewUserInputs({
-                    ...newUserInputs,
+                  set_new_user_inputs({
+                    ...new_user_inputs,
                     username: e.target.value,
                   })
                 }
               />
               <Input
-                placeholder={"Password*"}
+                placeholder={"Password (8 or more characters)*"}
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
                 className={"container"}
-                value={newUserInputs.password}
+                value={new_user_inputs.password}
                 onChange={(e) =>
-                  setNewUserInputs({
-                    ...newUserInputs,
+                  set_new_user_inputs({
+                    ...new_user_inputs,
                     password: e.target.value,
                   })
                 }
@@ -179,15 +232,14 @@ const AuthPage = () => {
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
                 className={"container"}
-                value={newConfirmPassword}
-                onChange={(e) => setNewConfirmPassword(e.target.value)}
+                value={confirm_password}
+                onChange={(e) => set_confirm_password(e.target.value)}
               />
               <Button
                 borderRadius={[10, 12, 15]}
                 size={["sm", "md", "lg"]}
-                className={"background"}
-                isDisabled={signupIsDisabled}
-                onClick={signUp}
+                className={"icons"}
+                onClick={sign_up}
               >
                 Sign up
               </Button>

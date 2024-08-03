@@ -27,6 +27,8 @@ import {
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const NavButton = (props, { onClick }) => {
   return (
@@ -42,8 +44,10 @@ const NavButton = (props, { onClick }) => {
   );
 };
 
-const HeaderMenu = () => {
+const HeaderMenu = (props) => {
+  const setUser = useSetRecoilState(userAtom);
   const { toggleColorMode } = useColorMode();
+
   return (
     <Menu>
       <MenuButton onClick={toggleColorMode}>
@@ -77,31 +81,38 @@ const HeaderMenu = () => {
             </ButtonGroup>
           </MenuItem>
         </MenuGroup>
-        <MenuDivider />
-        <MenuGroup bg={"unset"}>
-          <MenuItem
-            borderRadius={3}
-            bg={"unset"}
-            _hover={{ fontWeight: "600" }}
-          >
-            Report a problem
-          </MenuItem>
-          <MenuItem
-            borderRadius={3}
-            bg={"unset"}
-            _hover={{ fontWeight: "600" }}
-          >
-            Logout
-          </MenuItem>
-        </MenuGroup>
+        {props.user && (
+          <>
+            <MenuDivider />
+            <MenuGroup bg={"unset"}>
+              <MenuItem
+                borderRadius={3}
+                bg={"unset"}
+                _hover={{ fontWeight: "600" }}
+              >
+                Report a problem
+              </MenuItem>
+              <MenuItem
+                borderRadius={3}
+                bg={"unset"}
+                _hover={{ fontWeight: "600" }}
+                onClick={() => {
+                  localStorage.removeItem("user-threads");
+                  setUser(null);
+                }}
+              >
+                Logout
+              </MenuItem>
+            </MenuGroup>
+          </>
+        )}
       </MenuList>
     </Menu>
   );
 };
 
 const Header = () => {
-  const isLoggedIn = true;
-
+  const user = useRecoilValue(userAtom);
   return (
     <Flex
       w={["full", "full", "full", "auto"]}
@@ -122,18 +133,20 @@ const Header = () => {
       <Stack direction={["row", "row", "row", "column"]}>
         <NavButton icon={faHouse} />
         <NavButton icon={faSearch} />
-        <Box display={["block", "block", "block", "none"]}>
-          <NavButton icon={faPlus} />
-        </Box>
+        {user && (
+          <Box display={["block", "block", "block", "none"]}>
+            <NavButton icon={faPlus} />
+          </Box>
+        )}
         <NavButton icon={faHeart} />
         <Link to={"/mustafa"}>
           <NavButton icon={faUser} />
         </Link>
       </Stack>
       <Stack>
-        <HeaderMenu />
+        <HeaderMenu user={user} />
       </Stack>
-      {isLoggedIn && (
+      {user && (
         <Button
           visibility={["hidden", "hidden", "hidden", "visible"]}
           w={"100px"}

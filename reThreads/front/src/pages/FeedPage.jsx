@@ -23,6 +23,8 @@ import {
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserPost from "../components/UserPost";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const FeedMenu = () => {
   return (
@@ -156,21 +158,26 @@ const Post = (props) => {
 };
 
 const FeedPage = () => {
+  const user = useRecoilValue(userAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex
       mt={[1, 2, 3, 4, 5, 6, 7]}
       alignItems={"center"}
       flexDirection={"column"}
-      overflow={"hidden"}
+      overflowX={"hidden"}
+      overflowY={"scroll"}
+      // style={{ scrollbarWidth: "none" }}
       className={"text"}
     >
-      <Flex gap={["3px", "5px", "7px"]}>
-        <Text fontSize={["12px", "13px", "14px", "15px"]} fontWeight={600}>
-          For You
-        </Text>
-        <FeedMenu />
-      </Flex>
+      {user && (
+        <Flex gap={["3px", "5px", "7px"]}>
+          <Text fontSize={["12px", "13px", "14px", "15px"]} fontWeight={600}>
+            For You
+          </Text>
+          <FeedMenu />
+        </Flex>
+      )}
       <Container
         minW={["full", "480px", "576px", "720px"]}
         mt={[1, 2, 3, 4, 5, 6, 7]}
@@ -179,30 +186,66 @@ const FeedPage = () => {
         left={0}
         className={"container"}
       >
-        <Flex
-          w={"full"}
-          my={[1, 2, 3, 4, 5, 6, 7]}
-          px={[1, 2, 3, 4, 5, 6, 7]}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-          onClick={onOpen}
-        >
-          <Box>
-            <Post isOpen={isOpen} onClose={onClose} />
-          </Box>
-          <Button
-            w={["36px", "48px", "60px"]}
-            h={["21px", "28px", "35px"]}
-            fontSize={["12px", "13px", "14px", "15px"]}
-            className={"container"}
-            border={"1px solid #999999"}
-            borderRadius={"12px"}
-          >
-            Post
-          </Button>
-        </Flex>
-        <Divider />
+        {user && (
+          <>
+            <Flex
+              w={"full"}
+              my={[1, 2, 3, 4, 5, 6, 7]}
+              px={[1, 2, 3, 4, 5, 6, 7]}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              onClick={onOpen}
+            >
+              <Box>
+                <Post isOpen={isOpen} onClose={onClose} />
+              </Box>
+              <Button
+                w={["36px", "48px", "60px"]}
+                h={["21px", "28px", "35px"]}
+                fontSize={["12px", "13px", "14px", "15px"]}
+                className={"container"}
+                border={"1px solid #999999"}
+                borderRadius={"12px"}
+              >
+                Post
+              </Button>
+            </Flex>
+            <Divider />
+          </>
+        )}
         <Box mx={[1, 2, 3]}>
+          <UserPost
+            profilePicture={""}
+            uploadTime={"1h"}
+            text={""}
+            image={
+              "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+          />
+          <UserPost
+            profilePicture={""}
+            uploadTime={"1h"}
+            text={""}
+            image={
+              "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+          />
+          <UserPost
+            profilePicture={""}
+            uploadTime={"1h"}
+            text={""}
+            image={
+              "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+          />
+          <UserPost
+            profilePicture={""}
+            uploadTime={"1h"}
+            text={""}
+            image={
+              "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2099&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+          />
           <UserPost
             profilePicture={""}
             uploadTime={"1h"}
