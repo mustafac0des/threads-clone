@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
 
 import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
-import { RecoilRoot } from "recoil";
 
 const config = {
   initialColorMode: "dark",
@@ -15,18 +15,15 @@ const config = {
 
 const styles = {
   global: (props) => ({
-    ".background": {
+    ".darkBlack": {
       backgroundColor: mode("#FAFAFA !important", "#0A0A0A !important")(props),
+      color: mode("#0A0A0A !important", "#FAFAFA !important")(props),
     },
-    ".container": {
+    ".lightBlack": {
       backgroundColor: mode("#FFFFFF !important", "#181818 !important")(props),
+      color: mode("#0A0A0A !important", "#FAFAFA !important")(props),
     },
-    ".text": {
-      color: mode("#000000 !important", "#FDF5F7 !important")(props),
-    },
-    ".icon": {
-      color: mode("#999999 !important", "#999999 !important")(props),
-    },
+    ".text": { color: mode("#0A0A0A !important", "#FAFAFA !important")(props) },
   }),
 };
 

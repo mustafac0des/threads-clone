@@ -1,4 +1,7 @@
 /* eslint-disable react/prop-types */
+import { Link, Navigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
 import {
   ButtonGroup,
   Menu,
@@ -14,6 +17,7 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThreads } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -26,21 +30,20 @@ import {
   faSun,
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+
 import userAtom from "../atoms/userAtom";
 
 const NavButton = (props, { onClick }) => {
   return (
     <Button
-      w={"50px"}
-      h={"50px"}
+      as={FontAwesomeIcon}
+      size={["xxs", "xs"]}
+      p={2}
       bg={"unset"}
+      icon={props.icon}
       onClick={onClick}
       className={"icon"}
-    >
-      <FontAwesomeIcon size={"xl"} icon={props.icon} className={"text"} />
-    </Button>
+    />
   );
 };
 
@@ -115,19 +118,18 @@ const Header = () => {
   const user = useRecoilValue(userAtom);
   return (
     <Flex
-      w={["full", "full", "full", "auto"]}
-      h={["5vh", "5vh", "5vh", "100vh"]}
-      pt={"2px"}
-      pl={"2px"}
-      pr={"2px"}
-      pb={"10px"}
-      position={"Fixed"}
-      left={["auto", "auto", "auto", "0px"]}
-      bottom={["0px", "0px", "0px", "auto"]}
+      w={["full", "full", "full", "5vh"]}
+      h={["5vh", "5vh", "5vh", "full"]}
+      p={2}
+      position={"fixed"}
+      left={["auto", "auto", "auto", 0]}
+      bottom={[0, 0, 0, "auto"]}
       flexDirection={["row", "row", "row", "column"]}
       alignItems={"center"}
       justifyContent={"space-between"}
-      className={"background"}
+      zIndex={10}
+      border={"1px solid #616161"}
+      className={"darkBlack"}
     >
       <NavButton icon={faThreads} />
       <Stack direction={["row", "row", "row", "column"]}>
@@ -139,7 +141,7 @@ const Header = () => {
           </Box>
         )}
         <NavButton icon={faHeart} />
-        <Link to={"/mustafa"}>
+        <Link to={`/${user.username}`}>
           <NavButton icon={faUser} />
         </Link>
       </Stack>
@@ -148,17 +150,16 @@ const Header = () => {
       </Stack>
       {user && (
         <Button
-          visibility={["hidden", "hidden", "hidden", "visible"]}
-          w={"100px"}
-          h={"80px"}
+          as={FontAwesomeIcon}
+          w={100}
+          h={80}
           position={"fixed"}
           bottom={10}
           right={10}
+          visibility={["hidden", "hidden", "hidden", "visible"]}
           border={"1px solid #616161"}
           borderRadius={15}
-        >
-          <FontAwesomeIcon size={"2xl"} icon={faPlus} />
-        </Button>
+        />
       )}
     </Flex>
   );

@@ -1,70 +1,14 @@
 /* eslint-disable react/prop-types */
-import {
-  Box,
-  Image,
-  Stack,
-  Text,
-  Button,
-  Divider,
-  MenuButton,
-  Menu,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
-import {
-  faBookmark,
-  faEllipsis,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Actions } from "./Actions";
+import { Box, Image, Stack, Text, Divider, Avatar } from "@chakra-ui/react";
 
-const More = (props) => {
-  const isLoggedIn = true;
-
-  return (
-    <Menu>
-      <Button as={MenuButton} h={5} p={0} bg={"unset"} borderRadius={"full"}>
-        <FontAwesomeIcon width={["10px", "12px", "15px"]} icon={faEllipsis} />
-      </Button>
-      <MenuList className={"background"}>
-        <MenuItem
-          bg={"unset"}
-          _hover={{ fontWeight: "600" }}
-          justifyContent={"space-between"}
-        >
-          <Text>{props.isSaved ? "Unsave" : "Save"}</Text>
-          <FontAwesomeIcon icon={props.isSaved ? faBookmark : faBookmark} />
-        </MenuItem>
-        {isLoggedIn && (
-          <MenuItem
-            bg={"unset"}
-            _hover={{ fontWeight: "600" }}
-            justifyContent={"space-between"}
-          >
-            <Text>Delete</Text>
-            <FontAwesomeIcon icon={faTrash} />
-          </MenuItem>
-        )}
-      </MenuList>
-    </Menu>
-  );
-};
+import Actions from "./Actions";
+import More from "./More";
 
 const UserPost = (props) => {
   return (
     <Box w={"full"} mt={[3, 4, 5]}>
       <Stack direction={"row"} spacing={[1, 2, 3]}>
-        <Box w={["32px", "35px", "38px"]} className={"icon"}>
-          <Image
-            src={
-              props.profilePicture ||
-              "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-            }
-            border={"1px solid #999999"}
-            borderRadius={"full"}
-          />
-        </Box>
+        <Avatar size={"sm"} />
         <Box w={"full"}>
           <Stack direction={"column"}>
             <Stack
@@ -72,29 +16,24 @@ const UserPost = (props) => {
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <Stack
-                direction={"row"}
-                fontSize={["12px", "13px", "14px", "15px"]}
-              >
-                <Text fontWeight={600}>{props.name || "404"}</Text>
-                <Text fontWeight={200} className={"icon"}>
-                  {props.uploadTime || "0s"}
+              <Stack direction={"row"} fontSize={[12, 13, 14, 15]}>
+                <Text fontWeight={600}>{props.name}</Text>
+                <Text fontWeight={200} color={"#616161"}>
+                  {props.uploadTime}
                 </Text>
               </Stack>
-              <More />
+              {true && <More />}
             </Stack>
             <Box mt={-2} fontSize={13}>
-              <Text fontSize={["10px", "11px", "12px", "13px"]}>
-                {props.text || "404"}
-              </Text>
+              <Text fontSize={[10, 11, 12, 13]}>{props.text}</Text>
               {props.image ? (
                 <Image
                   src={props.image}
-                  maxH={["200px", "250px", "300px"]}
+                  maxH={[200, 225, 275]}
                   mt={2}
                   objectFit={"cover"}
-                  border={"1px solid #999999"}
-                  borderRadius={5}
+                  border={"1px solid #616161"}
+                  borderRadius={10}
                 />
               ) : null}
               <Actions />

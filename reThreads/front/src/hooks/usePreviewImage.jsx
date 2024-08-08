@@ -1,14 +1,13 @@
 import { useState } from "react";
 import useCustomToast from "./useCustomToast";
 
-const useImage = (e) => {
+const usePreviewImage = () => {
   const showToast = useCustomToast();
   const [imgUrl, setImgUrl] = useState(null);
 
-  const handleImgChange = () => {
+  const handleImgChange = (e) => {
     const file = e.target.files[0];
-
-    if (file && file.type.contains("image")) {
+    if (file && file.type.includes("image")) {
       const reader = new FileReader();
 
       reader.onloadend = () => {
@@ -25,4 +24,4 @@ const useImage = (e) => {
   return { imgUrl, handleImgChange };
 };
 
-export default useImage;
+export default usePreviewImage;

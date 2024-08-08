@@ -1,6 +1,6 @@
 import { Container } from "@chakra-ui/react";
+
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 import AuthPage from "./pages/AuthPage";
 import FeedPage from "./pages/FeedPage";
@@ -11,17 +11,15 @@ import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 
 const App = () => {
-  const location = useLocation();
   const user = useRecoilValue(userAtom);
-  const isAuthPage = location.pathname.match("/auth");
 
   return (
     <Container
-      minW={["full", "480px", "576px", "768px", "992px", "1280px"]}
+      w={["full", "480px", "576px", "768px", "992px", "1280px"]}
       centerContent
-      className={"background"}
+      className={"darkBlack"}
     >
-      {!isAuthPage && <Header />}
+      {user && <Header />}
       <Routes>
         <Route
           path={"/auth"}

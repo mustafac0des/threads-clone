@@ -1,83 +1,74 @@
 /* eslint-disable react/prop-types */
 import {
-  Flex,
-  Button,
-  Text,
-  Image,
+  Avatar,
   Box,
   Divider,
-  useColorMode,
+  Container,
+  Image,
+  Flex,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+
+import Actions from "../components/Actions";
 import Comment from "../components/Comment";
-import { Actions } from "../components/Actions";
+import More from "../components/More";
 
-const More = () => (
-  <Button h={0} color={"gray.light"}>
-    <FontAwesomeIcon size={"sm"} icon={faEllipsis} />
-  </Button>
-);
-
-const PostPage = () => {
-  const { colorMode } = useColorMode();
-
+const PostPage = (props) => {
   return (
-    <Flex
-      w={"768px"}
-      mt={5}
-      mx={1}
-      p={5}
-      borderRadius={"25px"}
-      border={"2px solid"}
-      borderColor={"gray.light"}
-      gap={2}
-      bg={"#181818"}
-      flexDirection={"column"}
-      style={{ backgroundColor: colorMode == "dark" ? "#181818" : "#FFFFFF" }}
-    >
-      <Flex width={"full"} flexDirection={"column"} gap={5}>
-        <Flex alignItems={"center"} justifyContent={"space-between"}>
-          <Flex gap={1} alignItems={"center"}>
-            <Box>
-              <Image
-                src={
-                  "https://yt3.ggpht.com/gtKyyf28tXVtyjap_Oy8GhJoPh9KewrudUjjdDSEgSu7BI0fDsTwGsqlu_VekNt0xUqgeX0YLg=s88-c-k-c0x00ffffff-no-rj"
-                }
-                w={"40px"}
-                borderRadius={"100%"}
-                mr={2}
-                border={"1px solid"}
-                borderColor={"gray.light"}
-              />
+    <Flex alignItems={"center"} flexDirection={"column"} className={"text"}>
+      <Container
+        minW={["full", 480, 576, 720]}
+        minH={"98vh"}
+        my={[2, 3]}
+        px={[5]}
+        borderRadius={25}
+        border={"1px solid #616161"}
+        className={"lightBlack"}
+      >
+        <Box w={"full"} mt={[3, 4, 5]}>
+          <Stack direction={"row"} spacing={[1, 2, 3]}>
+            <Avatar size={"md"} />
+            <Box w={"full"}>
+              <Stack direction={"column"}>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Stack direction={"row"} fontSize={[12, 13, 14, 15]}>
+                    <Text fontWeight={600}>{props.name}</Text>
+                    <Text fontWeight={200} color={"#616161"}>
+                      {props.uploadTime}
+                    </Text>
+                  </Stack>
+                  {true && <More />}
+                </Stack>
+                <Box mt={-2} fontSize={13}>
+                  <Text fontSize={[10, 11, 12, 13]}>{props.text}</Text>
+                  {props.image ? (
+                    <Image
+                      src={props.image}
+                      maxH={[200, 225, 275]}
+                      mt={2}
+                      objectFit={"cover"}
+                      border={"1px solid #616161"}
+                      borderRadius={10}
+                    />
+                  ) : null}
+                  <Actions />
+                </Box>
+              </Stack>
             </Box>
-            <Text fontWeight={"bold"}>mustafa</Text>
-            <Text color={"gray.light"}>1d</Text>
-          </Flex>
-          <More />
-        </Flex>
-        <Box>
-          <Text ml={1}>Delicious Food!</Text>
-          <Image
-            src="https://plus.unsplash.com/premium_photo-1663858367001-89e5c92d1e0e?q=80&w=2030&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            mt={2}
-            mb={1}
-            borderRadius={"xl"}
-            maxH={"sm"}
-            border={"0.25px solid"}
-            borderColor={"gray.light"}
-          />
-          <Actions likes={9} />
-        </Box>
-        <Divider />
-        <Box>
-          <Text fontWeight={"bold"} ml={1}>
+          </Stack>
+          <Divider />
+          <Text m={2} color={"#616161"}>
             Replies
           </Text>
-          <Divider mt={5} />
-          <Comment />
+          <Divider />
         </Box>
-      </Flex>
+        <Comment />
+      </Container>
     </Flex>
   );
 };

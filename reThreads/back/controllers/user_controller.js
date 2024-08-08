@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import setTokenCookie from "../utils/setTokenCookie.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const user_sign_up = async (req, res) => {
   try {
@@ -53,10 +54,10 @@ const user_sign_in = async (req, res) => {
       message: "Signed in successfully! Redirecting. . .",
       user,
     });
-  } catch (err) {
+  } catch {
     return res.json({
       status: 500,
-      message: "Something went wrong! " + err.message,
+      message: "Something went wrong! ",
     });
   }
 };
@@ -71,9 +72,10 @@ const user_sign_out = async (res) => {
 };
 
 const user_update = async (req, res) => {
-  const { name, biography, username, password } = req.body;
-  const id = req.user._id;
-
+  const { name, biography, newUsername, password } = req.body;
+  let { picture } = req.body;
+  const { id } = req.params;
+  console.log(id);
   try {
     let user = await User.findById(id);
 
@@ -83,13 +85,28 @@ const user_update = async (req, res) => {
 
     if (password) {
       const salt = await bcrypt.genSalt(10);
-      const hashed_password = await bcrypt.hash(password, salt);
-      user.password = hashed_password;
+      const hashedPassword = await bcrypt.hash(password, salt);
+      user.password = hashedPassword;
+    }
+
+    if (picture) {
+      if (user.picture) {
+        const publicId = user.picture.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(publicId);
+      }
+
+      const upload_response = await cloudinary.uploader.upload(picture, {
+        upload_preset: "ml_default",
+      });
+
+      user.picture = upload_response.secure_url;
     }
 
     user.name = name || user.name;
+    user.picture = picture || user.picture;
     user.biography = biography || user.biography;
-    user.username = username || user.username;
+    user.username = newUsername || user.username;
+    user.password = password || user.password;
 
     await user.save();
 
@@ -99,8 +116,11 @@ const user_update = async (req, res) => {
         message: "Account updated successfully!",
       });
     }
-  } catch {
-    return res.json({ status: 500, message: "Something went wrong!" });
+  } catch (err) {
+    return res.json({
+      status: 500,
+      message: `Something went wrong! ${err.message}`,
+    });
   }
 };
 
