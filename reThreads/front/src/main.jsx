@@ -23,7 +23,10 @@ const styles = {
       backgroundColor: mode("#FFFFFF !important", "#181818 !important")(props),
       color: mode("#0A0A0A !important", "#FAFAFA !important")(props),
     },
-    ".text": { color: mode("#0A0A0A !important", "#FAFAFA !important")(props) },
+    ".text": {
+      color: mode("#0A0A0A !important", "#FAFAFA !important")(props),
+      fill: mode("#OAOAOA !important", "#FAFAFA !important")(props),
+    },
   }),
 };
 

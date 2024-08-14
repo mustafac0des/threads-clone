@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-
 import {
   Button,
   Container,
@@ -15,9 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThreads } from "@fortawesome/free-brands-svg-icons";
-
+import Icon from "../components/Icon";
 import userAtom from "../atoms/userAtom";
 import useCustomToast from "../hooks/useCustomToast";
 
@@ -131,7 +128,8 @@ const AuthPage = () => {
         src={"https://static.cdninstagram.com/rsrc.php/v3/yU/r/7LVg0KiH0gH.png"}
       />
       <Stack w={[300, 350, 400]} gap={[3, 5, 7, 10]}>
-        <FontAwesomeIcon fontSize={40} icon={faThreads} className={"text"} />
+        <Icon name="threads" size={40} className={"text"} />{" "}
+        {/* Replaced FontAwesomeIcon */}
         <Tabs isFitted variant={"enclosed"}>
           <TabList>
             <Tab fontSize={[10, 12, 16]} className={"text"}>

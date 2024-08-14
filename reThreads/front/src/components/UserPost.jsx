@@ -8,7 +8,7 @@ const UserPost = (props) => {
   return (
     <Box w={"full"} mt={[3, 4, 5]}>
       <Stack direction={"row"} spacing={[1, 2, 3]}>
-        <Avatar size={"sm"} />
+        <Avatar size={["xs", "sm"]} />
         <Box w={"full"}>
           <Stack direction={"column"}>
             <Stack

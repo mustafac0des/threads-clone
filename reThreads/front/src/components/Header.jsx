@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 import {
-  ButtonGroup,
   Menu,
   MenuButton,
   MenuList,
@@ -18,43 +18,24 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThreads } from "@fortawesome/free-brands-svg-icons";
-import {
-  faHouse,
-  faPlus,
-  faHeart,
-  faUser,
-  faBars,
-  faSearch,
-  faSun,
-  faMoon,
-} from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon";
 
-import userAtom from "../atoms/userAtom";
-
-const NavButton = (props, { onClick }) => {
+const NavButton = ({ icon, onClick }) => {
   return (
-    <Button
-      as={FontAwesomeIcon}
-      size={["xxs", "xs"]}
-      p={2}
-      bg={"unset"}
-      icon={props.icon}
-      onClick={onClick}
-      className={"icon"}
-    />
+    <Button p={2} bg={"unset"} onClick={onClick}>
+      <Icon name={icon} size={[4, 5, 6]} color={"white"} />
+    </Button>
   );
 };
 
 const HeaderMenu = (props) => {
   const setUser = useSetRecoilState(userAtom);
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Menu>
-      <MenuButton onClick={toggleColorMode}>
-        <NavButton icon={faBars} />
+      <MenuButton>
+        <NavButton icon={"bars"} />
       </MenuButton>
       <MenuList
         p={1}
@@ -62,39 +43,22 @@ const HeaderMenu = (props) => {
         border={"1px solid"}
         borderColor={"#616161"}
         borderRadius={10}
-        className={"background"}
+        className={"lightBlack"}
       >
-        <MenuGroup title={"Appearance"}>
+        <MenuGroup title={"Switch to"}>
           <MenuItem borderRadius={3} bg={"unset"}>
-            <ButtonGroup
-              isAttached
-              flex={1}
-              border={"1px solid #999999"}
-              borderRadius={5}
-            >
-              <Button flex={1}>
-                <FontAwesomeIcon icon={faSun} />
-              </Button>
-              <Button flex={1}>
-                <FontAwesomeIcon icon={faMoon} />
-              </Button>
-              <Button flex={1} onClick={() => {}}>
-                <Text>Auto</Text>
-              </Button>
-            </ButtonGroup>
+            <Button flex={1} onClick={toggleColorMode}>
+              <Icon name={colorMode === "dark" ? "sun" : "moon"} />
+              <Text flex={1}>
+                {colorMode === "dark" ? "Light" : "Dark"} Mode
+              </Text>
+            </Button>
           </MenuItem>
         </MenuGroup>
         {props.user && (
           <>
             <MenuDivider />
             <MenuGroup bg={"unset"}>
-              <MenuItem
-                borderRadius={3}
-                bg={"unset"}
-                _hover={{ fontWeight: "600" }}
-              >
-                Report a problem
-              </MenuItem>
               <MenuItem
                 borderRadius={3}
                 bg={"unset"}
@@ -131,18 +95,18 @@ const Header = () => {
       border={"1px solid #616161"}
       className={"darkBlack"}
     >
-      <NavButton icon={faThreads} />
+      <NavButton icon={"threads"} />
       <Stack direction={["row", "row", "row", "column"]}>
-        <NavButton icon={faHouse} />
-        <NavButton icon={faSearch} />
+        <NavButton icon={"home"} />
+        <NavButton icon={"heart"} />
         {user && (
           <Box display={["block", "block", "block", "none"]}>
-            <NavButton icon={faPlus} />
+            <NavButton icon={"plus"} />
           </Box>
         )}
-        <NavButton icon={faHeart} />
+        <NavButton icon={"search"} />
         <Link to={`/${user.username}`}>
-          <NavButton icon={faUser} />
+          <NavButton icon={"profile"} />
         </Link>
       </Stack>
       <Stack>
@@ -150,16 +114,17 @@ const Header = () => {
       </Stack>
       {user && (
         <Button
-          as={FontAwesomeIcon}
           w={100}
-          h={80}
+          h={20}
           position={"fixed"}
           bottom={10}
           right={10}
           visibility={["hidden", "hidden", "hidden", "visible"]}
           border={"1px solid #616161"}
           borderRadius={15}
-        />
+        >
+          <Icon name={"plus"} size={8} />
+        </Button>
       )}
     </Flex>
   );

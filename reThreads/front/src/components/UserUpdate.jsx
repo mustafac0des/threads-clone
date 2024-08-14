@@ -30,7 +30,6 @@ const UserUpdate = () => {
     password: user[0].password,
   });
   const { imgUrl, handleImgChange } = usePreviewImage();
-  console.log(imgUrl);
 
   const Update = async () => {
     if (

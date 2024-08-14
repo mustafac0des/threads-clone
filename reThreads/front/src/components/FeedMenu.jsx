@@ -7,8 +7,8 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+
+import Icon from "./Icon";
 
 const FeedMenu = () => {
   return (
@@ -25,7 +25,7 @@ const FeedMenu = () => {
           border={"1px solid #616161"}
           borderRadius={"full"}
         >
-          <FontAwesomeIcon size={"sm"} icon={faAngleDown} />
+          <Icon name={"arrow"} />
         </MenuButton>
         <MenuList
           fontSize={["12px", "13px", "14px"]}
@@ -39,7 +39,7 @@ const FeedMenu = () => {
             _hover={{ fontWeight: 600 }}
             borderRadius={3}
           >
-            For you
+            For You
           </MenuItem>
           <MenuItem
             bg={"transparent"}
