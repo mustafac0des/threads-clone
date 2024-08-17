@@ -19,7 +19,7 @@ const App = () => {
       centerContent
       className={"darkBlack"}
     >
-      {user && <Header />}
+      {user && <Header user={user} />}
       <Routes>
         <Route
           path={"/auth"}
@@ -27,10 +27,13 @@ const App = () => {
         />
         <Route
           path={"/"}
-          element={user ? <FeedPage /> : <Navigate to={"/auth"} />}
+          element={user ? <FeedPage user={user} /> : <Navigate to={"/auth"} />}
         />
-        <Route path={"/:username"} element={<UserPage />} />
-        <Route path={"/:username/post/:pid"} element={<PostPage />} />
+        <Route path={"/:username"} element={<UserPage user={user} />} />
+        <Route
+          path={"/:username/post/:pid"}
+          element={<PostPage user={user} />}
+        />
       </Routes>
     </Container>
   );

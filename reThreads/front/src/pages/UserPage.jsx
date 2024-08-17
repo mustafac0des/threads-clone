@@ -101,9 +101,12 @@ const UserPage = () => {
           </TabList>
 
           <TabPanels>
-            <TabPanel as={Stack} spacing={0} pt={0} alignItems={"center"}>
-              <UserPost />
-            </TabPanel>
+            <TabPanel
+              as={Stack}
+              spacing={0}
+              pt={0}
+              alignItems={"center"}
+            ></TabPanel>
             <TabPanel>
               <p>Replies</p>
             </TabPanel>

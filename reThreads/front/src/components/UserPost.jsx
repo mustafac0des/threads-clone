@@ -8,9 +8,9 @@ const UserPost = (props) => {
   return (
     <Box w={"full"} mt={[3, 4, 5]}>
       <Stack direction={"row"} spacing={[1, 2, 3]}>
-        <Avatar size={["xs", "sm"]} />
+        <Avatar src={props.profilePicture} size={["xs", "sm"]} />
         <Box w={"full"}>
-          <Stack direction={"column"}>
+          <Stack direction={"column"} mt={-2}>
             <Stack
               direction={"row"}
               alignItems={"center"}
@@ -22,7 +22,9 @@ const UserPost = (props) => {
                   {props.uploadTime}
                 </Text>
               </Stack>
-              {true && <More />}
+              {props.name && (
+                <More postedBy={props.postedBy} postId={props.postId} />
+              )}
             </Stack>
             <Box mt={-2} fontSize={13}>
               <Text fontSize={[10, 11, 12, 13]}>{props.text}</Text>

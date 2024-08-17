@@ -14,37 +14,37 @@ import {
 } from "@chakra-ui/react";
 import useCustomToast from "../hooks/useCustomToast";
 import usePreviewImage from "../hooks/usePreviewImage";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 
 const UserUpdate = () => {
-  const showToast = useCustomToast();
+  const user = useRecoilValue(userAtom);
   const fileRef = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const showToast = useCustomToast();
 
-  const user = useRecoilState(userAtom);
   const [inputs, setInputs] = useState({
-    name: user[0].name,
-    biography: user[0].biography,
-    username: user[0].username,
-    password: user[0].password,
+    name: user.name,
+    biography: user.biography,
+    username: user.username,
+    password: user.password,
   });
   const { imgUrl, handleImgChange } = usePreviewImage();
 
-  const Update = async () => {
+  const userUpdate = async () => {
     if (
       !inputs.name ||
       !inputs.biography ||
       !inputs.username ||
       !inputs.password
     ) {
-      return showToast("Fill in at least one field", "error");
+      throw new Error("Fill in at least one field!");
     }
 
     showToast("Updating profile...", "info");
 
     try {
-      const res = await fetch(`/api/users/update/${user[0]._id}`, {
+      const res = await fetch(`/api/users/update/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -55,11 +55,12 @@ const UserUpdate = () => {
       const data = await res.json();
       if (data.status === 200) {
         showToast(data.message, "success");
+        localStorage.setItem("user-threads", JSON.stringify(data.user));
       } else {
         showToast(data.message, "error");
       }
-    } catch {
-      return showToast("Error while updating the profile!", "error");
+    } catch (err) {
+      showToast(err.message, "error");
     }
   };
 
@@ -95,7 +96,7 @@ const UserUpdate = () => {
             >
               <Avatar
                 size={"lg"}
-                src={imgUrl || user[0].picture}
+                src={imgUrl || user.picture}
                 border={"1px solid #616161"}
               />
               <Input type={"file"} ref={fileRef} onChange={handleImgChange} />
@@ -145,7 +146,7 @@ const UserUpdate = () => {
               borderRadius={[10, 12, 15]}
               size={["sm", "md", "lg"]}
               className={"icon"}
-              onClick={Update && onClose}
+              onClick={userUpdate}
             >
               Update
             </Button>

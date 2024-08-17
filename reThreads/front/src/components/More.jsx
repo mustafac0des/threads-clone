@@ -8,9 +8,34 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import Icon from "./Icon"; // Import the custom Icon component
+import Icon from "./Icon";
+import useCustomToast from "../hooks/useCustomToast";
+import userAtom from "../atoms/userAtom";
+import { useRecoilValue } from "recoil";
 
 const More = (props) => {
+  const user = useRecoilValue(userAtom);
+  const showToast = useCustomToast();
+
+  const postDelete = async () => {
+    showToast("Deleting...", "info");
+    console.log(props.postId);
+    const res = await fetch(`/api/posts/${props.postId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (data.status === 200) {
+      return showToast(data.message, "success");
+    } else {
+      return showToast(data.message, "error");
+    }
+  };
+
   return (
     <Menu>
       <Button
@@ -21,7 +46,7 @@ const More = (props) => {
         bg={"unset"}
         borderRadius={"full"}
       >
-        <Icon name="ellipsis" /> {/* Replace FontAwesomeIcon with Icon */}
+        <Icon name={"ellipsis"} />
       </Button>
       <MenuList border={"1px solid #616161"} className={"lightBlack"}>
         <MenuItem
@@ -30,16 +55,17 @@ const More = (props) => {
           justifyContent={"space-between"}
         >
           <Text>{props.isSaved ? "Unsave" : "Save"}</Text>
-          <Icon name="bookmark" /> {/* Replace FontAwesomeIcon with Icon */}
         </MenuItem>
-        <MenuItem
-          bg={"unset"}
-          _hover={{ fontWeight: "600" }}
-          justifyContent={"space-between"}
-        >
-          <Text>Delete</Text>
-          <Icon name="trash" /> {/* Replace FontAwesomeIcon with Icon */}
-        </MenuItem>
+        {props.postedBy.toString() === user._id.toString() ? (
+          <MenuItem
+            bg={"unset"}
+            _hover={{ fontWeight: "600" }}
+            justifyContent={"space-between"}
+            onClick={postDelete}
+          >
+            <Text>Delete</Text>
+          </MenuItem>
+        ) : null}
       </MenuList>
     </Menu>
   );

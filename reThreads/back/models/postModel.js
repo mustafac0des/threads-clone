@@ -35,10 +35,15 @@ const postSchema = mongoose.Schema(
         type: String,
       },
     },
+    repostedBy: {
+      type: [mongoose.Schema.ObjectId],
+      ref: "User",
+      default: [],
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Post = mongoose.model("Post", postSchema);

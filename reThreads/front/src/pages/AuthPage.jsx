@@ -35,12 +35,12 @@ const AuthPage = () => {
 
   const setUser = useSetRecoilState(userAtom);
 
-  const signIn = async () => {
+  const userSignIn = async () => {
     if (userInputs.username === "" || userInputs.password === "") {
       return showToast("Fill in both fields!", "info");
     }
 
-    showToast("Signing in!", "info");
+    showToast("Signing in...", "info");
 
     try {
       const res = await fetch("/api/users/signin", {
@@ -67,7 +67,7 @@ const AuthPage = () => {
     }
   };
 
-  const signUp = async () => {
+  const userSignUp = async () => {
     if (
       newUserInputs.name.length < 3 ||
       newUserInputs.name.length > 15 ||
@@ -128,8 +128,7 @@ const AuthPage = () => {
         src={"https://static.cdninstagram.com/rsrc.php/v3/yU/r/7LVg0KiH0gH.png"}
       />
       <Stack w={[300, 350, 400]} gap={[3, 5, 7, 10]}>
-        <Icon name="threads" size={40} className={"text"} />{" "}
-        {/* Replaced FontAwesomeIcon */}
+        <Icon name={"threads"} size={20} className={"text"} />
         <Tabs isFitted variant={"enclosed"}>
           <TabList>
             <Tab fontSize={[10, 12, 16]} className={"text"}>
@@ -163,7 +162,7 @@ const AuthPage = () => {
                 <Button
                   fontSize={[10, 12, 16]}
                   borderRadius={[10, 12, 15]}
-                  onClick={signIn}
+                  onClick={userSignIn}
                   className={"text"}
                 >
                   Sign in
@@ -218,7 +217,7 @@ const AuthPage = () => {
                 <Button
                   fontSize={[10, 12, 16]}
                   borderRadius={[10, 12, 15]}
-                  onClick={signUp}
+                  onClick={userSignUp}
                   className={"text"}
                 >
                   Sign up
