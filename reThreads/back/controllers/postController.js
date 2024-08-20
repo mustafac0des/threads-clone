@@ -48,9 +48,40 @@ const postGet = async (req, res) => {
       throw new Error("Post not found!");
     }
 
-    return res.json(post);
+    const user = await User.findById(post.postedBy);
+
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    const userReplyIds = [
+      ...new Set(post.replies.map((reply) => reply.userId.toString())),
+    ];
+
+    const userData = await User.find({ _id: { $in: userReplyIds } }).select(
+      "username name picture",
+    );
+
+    const userMap = new Map(
+      userData.map((user) => [user._id.toString(), user]),
+    );
+    const postData = {
+      ...post.toObject(),
+      postedBy: {
+        _id: user._id,
+        username: user.username,
+        name: user.name,
+        picture: user.picture,
+      },
+      replies: post.replies.map((reply) => ({
+        ...reply.toObject(),
+        userId: userMap.get(reply.userId.toString()) || {},
+      })),
+    };
+
+    return res.json(postData);
   } catch (err) {
-    res.json({ status: 500, message: err.message });
+    res.json({ message: err.message });
   }
 };
 
@@ -99,23 +130,21 @@ const postLike = async (req, res) => {
     const post = await Post.findById(postId);
 
     if (!post) {
-      return res
-        .status(404)
-        .json({ message: `Post not found!, ${postId} ${userId}` });
+      throw new Error("Post not found!");
     }
 
     const likedPost = post.likes.includes(userId);
 
     if (likedPost) {
       await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
-      return res.status(200).json({ message: "Post unliked" });
+      return res.json({ status: 200, message: "Post unliked!" });
     } else {
       await Post.updateOne({ _id: postId }, { $push: { likes: userId } });
       await post.save();
-      return res.status(200).json({ message: "Post liked" });
+      return res.json({ status: 200, message: "Post liked!" });
     }
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return res.json({ message: err.message });
   }
 };
 
@@ -134,14 +163,14 @@ const postReply = async (req, res) => {
 
     await Post.updateOne(
       { _id: postId },
-      { $push: { replies: { userId, text } } },
+      { $push: { replies: [{ userId, text }] } },
     );
 
     await post.save();
 
     return res.json({ status: 200, message: "Post replied!" });
   } catch (err) {
-    res.json({ message: err.message });
+    return res.json({ message: err.message });
   }
 };
 
@@ -171,7 +200,7 @@ const postDelete = async (req, res) => {
   }
 };
 
-const postRepost = async () => {
+const postRepost = async (req, res) => {
   const postId = req.params.id;
 
   try {
@@ -179,10 +208,6 @@ const postRepost = async () => {
 
     if (!user) {
       throw new Error("User not found!");
-    }
-
-    if (user._id.toString() !== req.params.id.toString()) {
-      throw new Error("Unauthorized!");
     }
 
     await Post.updateOne({ _id: postId }, { $push: { repostedBy: user._id } });

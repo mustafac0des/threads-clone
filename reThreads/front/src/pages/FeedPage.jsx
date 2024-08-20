@@ -28,45 +28,39 @@ const FeedPage = (props) => {
     };
 
     return () => fetchPosts();
-  }, []);
+  }, [user._id]);
 
   if (isLoading) {
-    return <Box>Loading</Box>;
+    return <Box color={"#616161"}>Loading</Box>;
   }
 
   return (
     <Flex alignItems={"center"} flexDirection={"column"} className={"text"}>
-      {user && <FeedMenu user={user} />}
+      <FeedMenu user={user} />
       <Container
-        minW={["full", 480, 576, 720]}
-        borderRadius={25}
+        minW={[320, 480, 576, 720]}
+        minH={"100vh"}
+        borderRadius={[15, 17, 25]}
         border={"1px solid #616161"}
         className={"lightBlack"}
       >
-        {user && (
-          <>
-            <CreatePost id={user._id} name={user.name} picture={user.picture} />
-            <Divider />
-          </>
-        )}
+        <CreatePost user={user} />
+        <Divider />
         <Box
           mx={[1, 2, 3]}
           maxH={"88vh"}
           overflowY={"scroll"}
           style={{ scrollbarWidth: "none" }}
         >
-          {postData.map((post) => (
-            <UserPost
-              key={post._id}
-              postId={post._id}
-              postedBy={post.postedBy._id}
-              name={post.postedBy.name}
-              profilePicture={post.postedBy.picture}
-              uploadTime={post.createdAt}
-              text={post.text}
-              image={post.image}
-            />
-          ))}
+          {!postData == [] ? (
+            <>
+              {postData.map((post) => (
+                <UserPost key={post._id} post={post} />
+              ))}
+            </>
+          ) : (
+            <Box>No post Found</Box>
+          )}
         </Box>
       </Container>
     </Flex>

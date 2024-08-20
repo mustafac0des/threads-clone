@@ -8,47 +8,103 @@ import {
   Flex,
   Stack,
   Text,
+  Input,
+  Button,
 } from "@chakra-ui/react";
 
 import Actions from "../components/Actions";
 import Comment from "../components/Comment";
 import More from "../components/More";
 
-const PostPage = (props) => {
+import { useState, useEffect } from "react";
+import useCustomToast from "../hooks/useCustomToast";
+
+const PostPage = () => {
+  const [postData, setPostData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [text, setText] = useState("");
+  const showToast = useCustomToast();
+
+  const postId = window.location.pathname.split("/").pop();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await fetch(`/api/posts/${postId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      setIsLoading(false);
+      setPostData(data);
+    };
+
+    return () => fetchPost();
+  }, []);
+
+  console.log(postData);
+
+  const postReply = async () => {
+    if (text === "") {
+      return showToast("Write something!", "info");
+    }
+    const res = await fetch(`/api/posts/reply/${postId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text }),
+    });
+
+    const data = await res.json();
+    if (data.status === 200) {
+      return showToast(data.message, "success");
+    } else {
+      return showToast(data.message, "error");
+    }
+  };
+
+  if (isLoading) {
+    return <Box color={"#616161"}>Loading</Box>;
+  }
+
   return (
     <Flex alignItems={"center"} flexDirection={"column"} className={"text"}>
       <Container
-        minW={["full", 480, 576, 720]}
-        minH={"98vh"}
+        minW={[320, 480, 576, 720]}
+        minH={"102vh"}
         my={[2, 3]}
-        px={[5]}
-        borderRadius={25}
+        px={[3, 4, 5]}
+        borderRadius={[15, 17, 25]}
         border={"1px solid #616161"}
         className={"lightBlack"}
       >
         <Box w={"full"} mt={[3, 4, 5]}>
-          <Stack direction={"row"} spacing={[1, 2, 3]}>
-            <Avatar size={"md"} />
-            <Box w={"full"}>
+          <Stack direction={"row"} spacing={[1, 2, 3]} mb={2}>
+            <Avatar src={postData.postedBy.picture} size={"md"} />
+            <Box w={"full"} mt={-1}>
               <Stack direction={"column"}>
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
                   justifyContent={"space-between"}
                 >
-                  <Stack direction={"row"} fontSize={[12, 13, 14, 15]}>
-                    <Text fontWeight={600}>{props.name}</Text>
+                  <Stack direction={"row"} fontSize={[14, 15, 16, 17]}>
+                    <Text fontWeight={600}>{postData.postedBy.username}</Text>
                     <Text fontWeight={200} color={"#616161"}>
-                      {props.uploadTime}
+                      {postData.createdAt}
                     </Text>
                   </Stack>
-                  {true && <More />}
+                  <More postId={postData._id} postedBy={postData.postedBy} />
                 </Stack>
                 <Box mt={-2} fontSize={13}>
-                  <Text fontSize={[10, 11, 12, 13]}>{props.text}</Text>
-                  {props.image ? (
+                  <Text fontSize={[12, 13, 14, 15]}>{postData.text}</Text>
+                  {postData.image ? (
                     <Image
-                      src={props.image}
+                      src={postData.image}
                       maxH={[200, 225, 275]}
                       mt={2}
                       objectFit={"cover"}
@@ -56,18 +112,46 @@ const PostPage = (props) => {
                       borderRadius={10}
                     />
                   ) : null}
-                  <Actions />
                 </Box>
+                <Actions post={postData} />
               </Stack>
             </Box>
           </Stack>
+          <Box my={2} display={"flex"} gap={1}>
+            <Input
+              type={"text"}
+              flex={9}
+              placeholder={"What do you think about this?"}
+              fontSize={12}
+              border={"1px solid #616161"}
+              borderRadius={[5, 7, 10]}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <Button
+              flex={1}
+              fontSize={12}
+              border={"1px solid #616161"}
+              borderRadius={[5, 7, 10]}
+              onClick={postReply}
+            >
+              Reply
+            </Button>
+          </Box>
           <Divider />
-          <Text m={2} color={"#616161"}>
+          <Text m={2} fontSize={[12, 14, 16]} color={"#616161"}>
             Replies
           </Text>
           <Divider />
         </Box>
-        <Comment />
+        {postData.replies.length > 0 ? (
+          <>
+            {postData.replies.map((reply) => (
+              <Comment key={reply._id} replyBy={reply} />
+            ))}
+          </>
+        ) : (
+          <Box>No replies found</Box>
+        )}
       </Container>
     </Flex>
   );

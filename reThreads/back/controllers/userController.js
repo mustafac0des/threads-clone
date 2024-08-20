@@ -49,7 +49,7 @@ const userSignIn = async (req, res) => {
 
     return res.json({
       status: 200,
-      message: "Signed in successfully! Redirecting. . .",
+      message: "Signed in successfully! Redirecting...",
       user,
     });
   } catch (err) {

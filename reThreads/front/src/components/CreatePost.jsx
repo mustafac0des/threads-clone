@@ -21,9 +21,10 @@ import usePreviewImage from "../hooks/usePreviewImage";
 const CreatePost = (props) => {
   const showToast = useCustomToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [post, setPost] = useState({ text: "", picture: "" });
-  const fileRef = useRef(null);
   const { imgUrl, handleImgChange } = usePreviewImage();
+  const fileRef = useRef(null);
 
   const postCreate = async () => {
     if (post.text.length < 9 || post.text.length > 500) {
@@ -38,8 +39,7 @@ const CreatePost = (props) => {
     post.picture = imgUrl;
 
     try {
-      console.log(props.id);
-      const res = await fetch(`/api/posts/create/${props.id}`, {
+      const res = await fetch(`/api/posts/create/${props.user._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,8 +54,8 @@ const CreatePost = (props) => {
       } else {
         showToast(data.message, "error");
       }
-    } catch {
-      showToast("Error while creating the post!", "error");
+    } catch (err) {
+      showToast(err.message, "error");
     }
   };
 
@@ -64,14 +64,14 @@ const CreatePost = (props) => {
       <Stack
         px={3}
         py={3}
-        direction={"horizontal"}
+        direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
         onClick={onOpen}
         cursor={"text"}
       >
-        <Stack direction={"horizontal"} alignItems={"center"}>
-          <Avatar src={props.picture} size={["xs", "sm"]} />
+        <Stack direction={"row"} alignItems={"center"}>
+          <Avatar src={props.user.picture} size={["xs", "sm"]} />
           <Text fontSize={[10, 12, 14]} color={"#616161"}>
             Start a thread...
           </Text>
@@ -100,14 +100,14 @@ const CreatePost = (props) => {
               <Stack direction={"column"} alignItems={"center"}>
                 <Avatar
                   size={["xs", "sm"]}
-                  src={props.picture}
+                  src={props.user.picture}
                   border={"1px solid #616161"}
                 />
                 <Divider orientation={"vertical"} />
               </Stack>
               <Stack w={"full"} direction={"column"}>
                 <Text fontSize={[11, 13]} fontWeight={600}>
-                  {props.name || "404"}
+                  {props.user.name}
                 </Text>
                 <Textarea
                   placeholder={"Start a thread..."}
@@ -123,7 +123,7 @@ const CreatePost = (props) => {
                 {imgUrl && (
                   <Image
                     src={imgUrl}
-                    boxSize={[200]}
+                    boxSize={[90, 110, 130, 150]}
                     border={"1px solid #616161"}
                     borderRadius={[7, 10, 15]}
                     objectFit={"contain"}

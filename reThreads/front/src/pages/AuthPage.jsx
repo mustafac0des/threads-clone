@@ -57,13 +57,11 @@ const AuthPage = () => {
         showToast(data.message, "success");
         localStorage.setItem("user-threads", JSON.stringify(data.user));
         setUser(data.user);
-      } else if (data.status === 400) {
-        showToast(data.message, "warning");
       } else {
         showToast(data.message, "error");
       }
-    } catch {
-      showToast("Error while fetching!", "error");
+    } catch (err) {
+      showToast(err.message, "error");
     }
   };
 
@@ -113,9 +111,9 @@ const AuthPage = () => {
           status: "error",
         });
       }
-    } catch {
+    } catch (err) {
       showToast({
-        title: "Error while fetching! Try again.",
+        title: err.message,
         status: "error",
       });
     }
@@ -128,7 +126,7 @@ const AuthPage = () => {
         src={"https://static.cdninstagram.com/rsrc.php/v3/yU/r/7LVg0KiH0gH.png"}
       />
       <Stack w={[300, 350, 400]} gap={[3, 5, 7, 10]}>
-        <Icon name={"threads"} size={20} className={"text"} />
+        <Icon name={"threads"} size={10} className={"text"} />
         <Tabs isFitted variant={"enclosed"}>
           <TabList>
             <Tab fontSize={[10, 12, 16]} className={"text"}>
@@ -227,7 +225,7 @@ const AuthPage = () => {
           </TabPanels>
         </Tabs>
       </Stack>
-      <Text fontSize={[5, 7, 10, 15]}>Threads Clone by Mustafa</Text>
+      <Text fontSize={[9, 10, 15]}>Threads Clone by Mustafa</Text>
     </Container>
   );
 };

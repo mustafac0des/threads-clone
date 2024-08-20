@@ -92,7 +92,6 @@ const Header = () => {
       alignItems={"center"}
       justifyContent={"space-between"}
       zIndex={10}
-      border={"1px solid #616161"}
       className={"darkBlack"}
     >
       <NavButton icon={"threads"} />

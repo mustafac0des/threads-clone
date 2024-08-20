@@ -19,7 +19,6 @@ const More = (props) => {
 
   const postDelete = async () => {
     showToast("Deleting...", "info");
-    console.log(props.postId);
     const res = await fetch(`/api/posts/${props.postId}`, {
       method: "DELETE",
       headers: {

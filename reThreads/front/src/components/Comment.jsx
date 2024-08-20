@@ -1,35 +1,28 @@
 /* eslint-disable react/prop-types */
 import { Box, Divider, Avatar, Stack, Text } from "@chakra-ui/react";
-import Actions from "./Actions";
-
-import More from "./More";
 
 const Comment = (props) => {
+  console.log(props.replyBy);
   return (
     <Box w={"full"} mt={[3, 4, 5]}>
       <Stack direction={"row"} spacing={[1, 2, 3]}>
-        <Avatar size={"sm"} />
+        <Avatar src={props.replyBy.userId.picture} size={["xs", "sm"]} />
         <Box w={"full"}>
           <Stack direction={"column"}>
             <Stack direction={"row"} mt={-1} justifyContent={"space-between"}>
               <Stack direction={"row"} fontSize={[12, 13, 14, 15]}>
-                <Text fontWeight={600}>mustafa</Text>
-                <Text fontWeight={200} color={"#616161"}>
-                  {props.uploadTime}
-                </Text>
+                <Text fontWeight={600}>{props.replyBy.userId.username}</Text>
+                <Text fontWeight={200} color={"#616161"}></Text>
               </Stack>
-              {true && <More />}
             </Stack>
-            <Text mt={-2} fontSize={[10, 11, 12, 13]}>
-              hello
+            <Text mt={-1} fontSize={[10, 11, 12, 13]}>
+              {props.replyBy.text}
             </Text>
-            <Box ml={-3} mt={-5} fontSize={13}>
-              <Actions />
-            </Box>
+            <Box ml={-3} mt={-5} fontSize={13}></Box>
           </Stack>
         </Box>
       </Stack>
-      <Divider mt={2} />
+      <Divider mt={5} />
     </Box>
   );
 };

@@ -21,22 +21,28 @@ const postSchema = mongoose.Schema(
       default: [],
     },
     replies: {
-      userId: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-      },
-      text: {
-        type: String,
-      },
-      picture: {
-        type: String,
-      },
-      username: {
-        type: String,
-      },
+      type: [
+        {
+          userId: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: true,
+          },
+          text: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      default: [],
     },
     repostedBy: {
       type: [mongoose.Schema.ObjectId],
+      ref: "User",
+      default: [],
+    },
+    savedBy: {
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
       default: [],
     },
