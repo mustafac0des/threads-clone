@@ -94,9 +94,13 @@ const Header = () => {
       zIndex={10}
       className={"darkBlack"}
     >
-      <NavButton icon={"threads"} />
+      <Link to={"/"}>
+        <NavButton icon={"threads"} />
+      </Link>
       <Stack direction={["row", "row", "row", "column"]}>
-        <NavButton icon={"home"} />
+        <Link to={"/"}>
+          <NavButton icon={"home"} />
+        </Link>
         <NavButton icon={"heart"} />
         {user && (
           <Box display={["block", "block", "block", "none"]}>

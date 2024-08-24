@@ -85,6 +85,26 @@ const postGet = async (req, res) => {
   }
 };
 
+const postedByUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  try {
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    if (!req.user) {
+      throw new Error("Unauthorized!");
+    }
+
+    const posts = await Post.find({ postedBy: user._id });
+
+    return res.json(posts);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
+
 const postFeed = async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -97,23 +117,13 @@ const postFeed = async (req, res) => {
       throw new Error("Unauthorized!");
     }
 
-    const postData = await Post.find();
-
-    const users = [
-      ...new Set(postData.map((post) => post.postedBy.toString())),
-    ];
-
-    const userData = await User.find({ _id: { $in: users } }).select(
-      "username name picture",
-    );
-
-    const userMap = new Map(
-      userData.map((user) => [user._id.toString(), user]),
-    );
+    const postData = await Post.find()
+      .lean()
+      .populate("postedBy", "username name picture");
 
     const posts = postData.map((post) => ({
-      ...post.toObject(),
-      postedBy: userMap.get(post.postedBy.toString()) || {},
+      ...post,
+      postedBy: post.postedBy || {},
     }));
 
     return res.json(posts);
@@ -137,6 +147,7 @@ const postLike = async (req, res) => {
 
     if (likedPost) {
       await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
+      await post.save();
       return res.json({ status: 200, message: "Post unliked!" });
     } else {
       await Post.updateOne({ _id: postId }, { $push: { likes: userId } });
@@ -171,6 +182,100 @@ const postReply = async (req, res) => {
     return res.json({ status: 200, message: "Post replied!" });
   } catch (err) {
     return res.json({ message: err.message });
+  }
+};
+
+const postReplyLike = async (req, res) => {
+  const userId = req.user.id;
+  const postId = req.params.id;
+  const replyId = req.params.id2;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      throw new Error("Post not found!");
+    }
+
+    const reply = post.replies.id(replyId);
+
+    if (!reply) {
+      throw new Error("Reply not found!");
+    }
+
+    const userLiked = reply.likes.includes(userId);
+
+    console.log(userLiked);
+
+    if (userLiked) {
+      reply.likes.pull(userId);
+      await post.save();
+      return res.json({ status: 200, message: "Reply unliked!" });
+    } else {
+      reply.likes.push(userId);
+      await post.save();
+      return res.json({ status: 200, message: "Reply liked!" });
+    }
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
+const postReplyDelete = async (req, res) => {
+  const userId = req.user.id;
+  const postId = req.params.id;
+  const replyId = req.params.id2;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      throw new Error("Post not found!");
+    }
+
+    const reply = post.replies.id(replyId);
+
+    if (!reply) {
+      throw new Error("Reply not found!");
+    }
+
+    console.log(userId + "\n" + reply.userId._id);
+
+    if (reply.userId._id != userId) {
+      throw new Error("Unauthorized!");
+    }
+
+    await post.replies.findByIdAndDelete(replyId);
+
+    await post.save();
+    return res.json({ status: 200, message: "Reply deleted!" });
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
+const postSave = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const post = await Post.findById(req.params.id);
+
+  try {
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    const modifyPostSavedBy = post.savedBy.includes(user._id);
+
+    if (modifyPostSavedBy) {
+      await Post.updateOne({ _id: post._id }, { $pull: { savedBy: user._id } });
+      return res.json({ status: 200, message: "Unsaved!" });
+    } else {
+      await Post.updateOne({ _id: post._id }, { $push: { savedBy: user._id } });
+      return res.json({ status: 200, message: "Saved!" });
+    }
+  } catch (err) {
+    res.json({
+      message: err.message,
+    });
   }
 };
 
@@ -223,9 +328,13 @@ const postRepost = async (req, res) => {
 export {
   postCreate,
   postGet,
+  postedByUser,
   postFeed,
   postLike,
   postReply,
+  postReplyLike,
+  postReplyDelete,
+  postSave,
   postDelete,
   postRepost,
 };

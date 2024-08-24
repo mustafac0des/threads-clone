@@ -50,12 +50,13 @@ const CreatePost = (props) => {
       const data = await res.json();
 
       if (data.status === 200) {
-        showToast(data.message, "success");
+        window.location.reload();
+        return showToast(data.message, "success");
       } else {
-        showToast(data.message, "error");
+        return showToast(data.message, "error");
       }
     } catch (err) {
-      showToast(err.message, "error");
+      return showToast(err.message, "error");
     }
   };
 

@@ -53,6 +53,7 @@ const UserUpdate = () => {
       });
 
       const data = await res.json();
+      console.log(user._id);
       if (data.status === 200) {
         showToast(data.message, "success");
         localStorage.setItem("user-threads", JSON.stringify(data.user));

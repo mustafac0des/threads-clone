@@ -2,6 +2,7 @@
 import {
   Avatar,
   Box,
+  Center,
   Divider,
   Container,
   Image,
@@ -14,12 +15,11 @@ import {
 
 import Actions from "../components/Actions";
 import Comment from "../components/Comment";
-import More from "../components/More";
 
 import { useState, useEffect } from "react";
 import useCustomToast from "../hooks/useCustomToast";
 
-const PostPage = () => {
+const PostPage = (props) => {
   const [postData, setPostData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [text, setText] = useState("");
@@ -45,8 +45,6 @@ const PostPage = () => {
     return () => fetchPost();
   }, []);
 
-  console.log(postData);
-
   const postReply = async () => {
     if (text === "") {
       return showToast("Write something!", "info");
@@ -60,6 +58,7 @@ const PostPage = () => {
     });
 
     const data = await res.json();
+
     if (data.status === 200) {
       return showToast(data.message, "success");
     } else {
@@ -98,7 +97,6 @@ const PostPage = () => {
                       {postData.createdAt}
                     </Text>
                   </Stack>
-                  <More postId={postData._id} postedBy={postData.postedBy} />
                 </Stack>
                 <Box mt={-2} fontSize={13}>
                   <Text fontSize={[12, 13, 14, 15]}>{postData.text}</Text>
@@ -113,7 +111,7 @@ const PostPage = () => {
                     />
                   ) : null}
                 </Box>
-                <Actions post={postData} />
+                <Actions userId={props.user._id} post={postData} />
               </Stack>
             </Box>
           </Stack>
@@ -146,11 +144,18 @@ const PostPage = () => {
         {postData.replies.length > 0 ? (
           <>
             {postData.replies.map((reply) => (
-              <Comment key={reply._id} replyBy={reply} />
+              <Comment
+                key={reply._id}
+                userId={props.user._id}
+                postId={postId}
+                replyBy={reply}
+              />
             ))}
           </>
         ) : (
-          <Box>No replies found</Box>
+          <Center m={5} color={"#616161"}>
+            Be The First to Reply!
+          </Center>
         )}
       </Container>
     </Flex>

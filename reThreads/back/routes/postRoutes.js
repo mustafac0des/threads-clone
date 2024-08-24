@@ -7,6 +7,10 @@ import {
   postReply,
   postDelete,
   postRepost,
+  postSave,
+  postedByUser,
+  postReplyLike,
+  postReplyDelete,
 } from "../controllers/postController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -14,9 +18,13 @@ const router = express.Router();
 
 router.post("/create/:id", protectRoute, postCreate);
 router.get("/:id", postGet);
+router.get("/postedby/:id", protectRoute, postedByUser);
 router.get("/feed/:id", protectRoute, postFeed);
 router.put("/like/:id", protectRoute, postLike);
 router.put("/reply/:id", protectRoute, postReply);
+router.put("/replylike/:id/:id2", protectRoute, postReplyLike);
+router.delete("/replydelete/:id/:id2", protectRoute, postReplyDelete);
+router.put("/save/:id", protectRoute, postSave);
 router.delete("/:id", protectRoute, postDelete);
 router.put("/:id", protectRoute, postRepost);
 

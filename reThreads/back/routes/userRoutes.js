@@ -16,6 +16,6 @@ router.post("/signin", userSignIn);
 router.post("/signout", userSignOut);
 router.get("/profile/:username", userProfile);
 router.put("/update/:id", protectRoute, userUpdate);
-router.post("/followUnfollow/:id", protectRoute, userFollowUnfollow);
+router.put("/followUnfollow/:id", protectRoute, userFollowUnfollow);
 
 export default router;

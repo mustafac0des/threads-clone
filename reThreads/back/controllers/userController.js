@@ -24,8 +24,11 @@ const userSignUp = async (req, res) => {
 
     await newUser.save();
 
+    setTokenCookie(User.findOne({ username })._id, res);
+
     if (newUser) {
       return res.json({
+        newUser,
         status: 200,
         message: "Account created successfully!",
       });
@@ -69,8 +72,8 @@ const userSignOut = async (res) => {
 };
 
 const userUpdate = async (req, res) => {
-  const { userId } = req.params;
-  const { name, biography, newUsername, password } = req.body;
+  const userId = req.params.id;
+  const { name, biography, username, password } = req.body;
   let { picture } = req.body;
   let pictureUrl;
 
@@ -85,10 +88,12 @@ const userUpdate = async (req, res) => {
       throw new Error("Unauthorized");
     }
 
-    const findExistingUsername = await User.find(newUsername);
+    if (username !== req.user.username) {
+      const findExistingUsername = await User.find(username);
 
-    if (findExistingUsername) {
-      throw new Error("Username already taken!");
+      if (findExistingUsername) {
+        throw new Error("Username already taken!");
+      }
     }
 
     if (password) {
@@ -114,7 +119,7 @@ const userUpdate = async (req, res) => {
     user.name = name || user.name;
     user.picture = pictureUrl || user.picture;
     user.biography = biography || user.biography;
-    user.username = newUsername || user.username;
+    user.username = username || user.username;
     user.password = password || user.password;
 
     await user.save();
@@ -146,44 +151,45 @@ const userProfile = async (req, res) => {
     } else {
       return res.json(user);
     }
-  } catch {
+  } catch (err) {
     return res.json({ message: err.message });
   }
 };
 
 const userFollowUnfollow = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const currentUser = await User.findById(req.user._id);
-    const userToModify = await User.findById(userId);
+    const otherUser = req.params.id;
+    const user = await User.findById(req.user._id);
+    const userToModify = await User.findById(otherUser);
 
-    if (currentUser._id.toString() === userId.toString()) {
+    if (user._id === otherUser) {
       throw new Error("You cannot follow yourself!");
     }
 
-    if (!currentUser || !userToModify) {
+    if (!user || !userToModify) {
       throw new Error("User not found!");
     }
 
-    const modifyUserFollowings = currentUser.following.includes(userId);
+    const modifyUserFollowings = user.following.includes(otherUser);
 
     if (modifyUserFollowings) {
-      await User.findByIdAndUpdate(currentUser, {
-        $pull: { following: userId },
+      await User.findByIdAndUpdate(user, {
+        $pull: { following: otherUser },
       });
-      await User.findByIdAndUpdate(userId, {
-        $pull: { followers: currentUser },
-      });
-      return res.json({ status: 200, message: "User unfollowed!" });
-    } else {
-      await User.findByIdAndUpdate(currentUser, {
-        $push: { following: userId },
-      });
-      await User.findByIdAndUpdate(userId, {
-        $push: { followers: currentUser },
+      await User.findByIdAndUpdate(otherUser, {
+        $pull: { followers: user._id },
       });
 
-      return res.json({ status: 200, message: "User followed!" });
+      return res.json({ user, status: 200, message: "User unfollowed!" });
+    } else {
+      await User.findByIdAndUpdate(user, {
+        $push: { following: otherUser },
+      });
+      await User.findByIdAndUpdate(otherUser, {
+        $push: { followers: user._id },
+      });
+
+      return res.json({ user, status: 200, message: "User followed!" });
     }
   } catch (err) {
     return res.json({ message: err.message });

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
+import useCustomToast from "../hooks/useCustomToast";
+
 import {
   Button,
   Container,
@@ -16,24 +18,19 @@ import {
 
 import Icon from "../components/Icon";
 import userAtom from "../atoms/userAtom";
-import useCustomToast from "../hooks/useCustomToast";
 
 const AuthPage = () => {
   const showToast = useCustomToast();
-
+  const setUser = useSetRecoilState(userAtom);
   const [userInputs, setUserInputs] = useState({
     username: "",
     password: "",
   });
-
   const [newUserInputs, setNewUserInputs] = useState({
     name: "",
     username: "",
     password: "",
   });
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const setUser = useSetRecoilState(userAtom);
 
   const userSignIn = async () => {
     if (userInputs.username === "" || userInputs.password === "") {
@@ -54,14 +51,14 @@ const AuthPage = () => {
       const data = await res.json();
 
       if (data.status === 200) {
-        showToast(data.message, "success");
         localStorage.setItem("user-threads", JSON.stringify(data.user));
         setUser(data.user);
+        return showToast(data.message, "success");
       } else {
-        showToast(data.message, "error");
+        return showToast(data.message, "error");
       }
     } catch (err) {
-      showToast(err.message, "error");
+      return showToast(err.message, "error");
     }
   };
 
@@ -77,17 +74,7 @@ const AuthPage = () => {
       });
     }
 
-    if (newUserInputs.password !== confirmPassword) {
-      return showToast({
-        title: "Passwords don't match!",
-        status: "warning",
-      });
-    }
-
-    showToast({
-      title: "Creating account...",
-      status: "info",
-    });
+    showToast("Creating account...", "info");
 
     try {
       const res = await fetch("/api/users/signup", {
@@ -101,21 +88,14 @@ const AuthPage = () => {
       const data = await res.json();
 
       if (data.status === 200) {
-        showToast({
-          title: data.message,
-          status: "success",
-        });
+        localStorage.setItem("user-threads", JSON.stringify(data.newUser));
+        setUser(data.newUser);
+        return showToast(data.message, "success");
       } else {
-        showToast({
-          title: data.message,
-          status: "error",
-        });
+        return showToast(data.message, "error");
       }
     } catch (err) {
-      showToast({
-        title: err.message,
-        status: "error",
-      });
+      return showToast(err.message, "error");
     }
   };
 
@@ -203,13 +183,6 @@ const AuthPage = () => {
                       password: e.target.value,
                     })
                   }
-                  className={"text"}
-                />
-                <Input
-                  placeholder={"Confirm password*"}
-                  borderRadius={[10, 12, 15]}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className={"text"}
                 />
                 <Button

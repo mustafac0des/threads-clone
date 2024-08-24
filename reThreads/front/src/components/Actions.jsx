@@ -3,7 +3,7 @@ import { Button, Stack, Text } from "@chakra-ui/react";
 import Icon from "./Icon";
 import useCustomToast from "../hooks/useCustomToast";
 
-const ActionButton = (props) => {
+export const ActionButton = (props) => {
   return (
     <Button
       w={0}
@@ -37,8 +37,10 @@ const Actions = (props) => {
       const data = await res.json();
 
       if (data.status === 200) {
+        window.location.reload();
         showToast(data.message, "success");
       } else {
+        window.location.reload();
         showToast(data.message, "error");
       }
     } catch (err) {
@@ -80,6 +82,44 @@ const Actions = (props) => {
     showToast("Post link copied to clipboard!", "success");
   };
 
+  const postDelete = async () => {
+    showToast("Deleting...", "info");
+    const res = await fetch(`/api/posts/${props.post._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (data.status === 200) {
+      window.location.reload();
+      return showToast(data.message, "success");
+    } else {
+      return showToast(data.message, "error");
+    }
+  };
+
+  const postSave = async () => {
+    showToast("Saving...", "info");
+    const res = await fetch(`/api/posts/save/${props.post._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (data.status === 200) {
+      window.location.reload();
+      return showToast(data.message, "success");
+    } else {
+      return showToast(data.message, "error");
+    }
+  };
+
   return (
     <Stack direction={"row"} ml={-2}>
       <ActionButton
@@ -98,6 +138,14 @@ const Actions = (props) => {
         onClick={postRepost}
       />
       <ActionButton icon={"share"} onClick={copyToClipboard} />
+      <ActionButton
+        icon={"bookmark"}
+        count={props.post.savedBy.length}
+        onClick={postSave}
+      />
+      {props.userId === props.post.postedBy._id ? (
+        <ActionButton icon={"trash"} onClick={postDelete} />
+      ) : null}
     </Stack>
   );
 };

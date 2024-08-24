@@ -1,34 +1,32 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 
-import { Box, Container, Flex, Divider } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Divider } from "@chakra-ui/react";
 
 import UserPost from "../components/UserPost";
 import FeedMenu from "../components/FeedMenu";
 import CreatePost from "../components/CreatePost";
 
 const FeedPage = (props) => {
-  const user = props.user;
-
-  const [postData, setPostData] = useState(null);
+  const [post, setPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchPosts = async () => {
+    const res = await fetch(`/api/posts/feed/${props.user._id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    setIsLoading(false);
+    setPost(data);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch(`/api/posts/feed/${user._id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-      setIsLoading(false);
-      setPostData(data);
-    };
-
     return () => fetchPosts();
-  }, [user._id]);
+  }, []);
 
   if (isLoading) {
     return <Box color={"#616161"}>Loading</Box>;
@@ -36,7 +34,7 @@ const FeedPage = (props) => {
 
   return (
     <Flex alignItems={"center"} flexDirection={"column"} className={"text"}>
-      <FeedMenu user={user} />
+      <FeedMenu user={props.user} />
       <Container
         minW={[320, 480, 576, 720]}
         minH={"100vh"}
@@ -44,7 +42,7 @@ const FeedPage = (props) => {
         border={"1px solid #616161"}
         className={"lightBlack"}
       >
-        <CreatePost user={user} />
+        <CreatePost user={props.user} />
         <Divider />
         <Box
           mx={[1, 2, 3]}
@@ -52,14 +50,16 @@ const FeedPage = (props) => {
           overflowY={"scroll"}
           style={{ scrollbarWidth: "none" }}
         >
-          {!postData == [] ? (
+          {post != 0 ? (
             <>
-              {postData.map((post) => (
-                <UserPost key={post._id} post={post} />
+              {post.map((post) => (
+                <UserPost key={post._id} userId={props.user._id} post={post} />
               ))}
             </>
           ) : (
-            <Box>No post Found</Box>
+            <Center m={5} color={"#616161"}>
+              No Post Found!
+            </Center>
           )}
         </Box>
       </Container>

@@ -3,6 +3,7 @@ import { Icon as IconChakra } from "@chakra-ui/react";
 import {
   ArrowIcon,
   BarsIcon,
+  BookmarkIcon,
   CommentIcon,
   EllipsisIcon,
   HeartIcon,
@@ -14,12 +15,14 @@ import {
   SunIcon,
   ShareIcon,
   ThreadsIcon,
+  TrashIcon,
 } from "./Icons";
 
 const Icon = ({ name, size, ...props }) => {
   const icons = {
     arrow: ArrowIcon,
     bars: BarsIcon,
+    bookmark: BookmarkIcon,
     comment: CommentIcon,
     ellipsis: EllipsisIcon,
     heart: HeartIcon,
@@ -31,6 +34,7 @@ const Icon = ({ name, size, ...props }) => {
     share: ShareIcon,
     sun: SunIcon,
     threads: ThreadsIcon,
+    trash: TrashIcon,
   };
 
   const SelectedIcon = icons[name];
