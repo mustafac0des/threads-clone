@@ -11,6 +11,10 @@ import {
 import Icon from "./Icon";
 
 const FeedMenu = () => {
+  const handleClick = () => {
+    alert("Will be implemented soon...");
+  };
+
   return (
     <Stack my={[2, 3]} direction={"horizontal"} alignItems={"center"}>
       <Text fontSize={[12, 13, 14]} fontWeight={600}>
@@ -38,6 +42,7 @@ const FeedMenu = () => {
             bg={"transparent"}
             _hover={{ fontWeight: 600 }}
             borderRadius={3}
+            onClick={handleClick}
           >
             For You
           </MenuItem>
@@ -45,6 +50,7 @@ const FeedMenu = () => {
             bg={"transparent"}
             _hover={{ fontWeight: 600 }}
             borderRadius={3}
+            onClick={handleClick}
           >
             Following
           </MenuItem>
@@ -52,6 +58,7 @@ const FeedMenu = () => {
             bg={"transparent"}
             _hover={{ fontWeight: 600 }}
             borderRadius={3}
+            onClick={handleClick}
           >
             Liked
           </MenuItem>
@@ -59,6 +66,7 @@ const FeedMenu = () => {
             bg={"transparent"}
             _hover={{ fontWeight: 600 }}
             borderRadius={3}
+            onClick={handleClick}
           >
             Saved
           </MenuItem>

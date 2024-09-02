@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 
+import CreatePost from "./CreatePost";
+
 import {
   Menu,
   MenuButton,
@@ -15,7 +17,6 @@ import {
   Stack,
   useColorMode,
   Text,
-  Box,
 } from "@chakra-ui/react";
 
 import Icon from "./Icon";
@@ -80,6 +81,11 @@ const HeaderMenu = (props) => {
 
 const Header = () => {
   const user = useRecoilValue(userAtom);
+
+  const handleClick = () => {
+    alert("Will be implemented soon...");
+  };
+
   return (
     <Flex
       w={["full", "full", "full", "5vh"]}
@@ -101,13 +107,9 @@ const Header = () => {
         <Link to={"/"}>
           <NavButton icon={"home"} />
         </Link>
-        <NavButton icon={"heart"} />
-        {user && (
-          <Box display={["block", "block", "block", "none"]}>
-            <NavButton icon={"plus"} />
-          </Box>
-        )}
-        <NavButton icon={"search"} />
+        <NavButton icon={"heart"} onClick={handleClick} />
+        {user && <CreatePost user={user} isHeader={true} isFixed={false} />}
+        <NavButton icon={"search"} onClick={handleClick} />
         <Link to={`/${user.username}`}>
           <NavButton icon={"profile"} />
         </Link>
@@ -115,20 +117,7 @@ const Header = () => {
       <Stack>
         <HeaderMenu user={user} />
       </Stack>
-      {user && (
-        <Button
-          w={100}
-          h={20}
-          position={"fixed"}
-          bottom={10}
-          right={10}
-          visibility={["hidden", "hidden", "hidden", "visible"]}
-          border={"1px solid #616161"}
-          borderRadius={15}
-        >
-          <Icon name={"plus"} size={8} />
-        </Button>
-      )}
+      {user && <CreatePost user={user} isHeader={true} isFixed={true} />}
     </Flex>
   );
 };

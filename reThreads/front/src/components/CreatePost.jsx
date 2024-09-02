@@ -13,10 +13,12 @@ import {
   useDisclosure,
   Input,
   Image,
+  Box,
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import useCustomToast from "../hooks/useCustomToast";
 import usePreviewImage from "../hooks/usePreviewImage";
+import Icon from "./Icon";
 
 const CreatePost = (props) => {
   const showToast = useCustomToast();
@@ -62,32 +64,57 @@ const CreatePost = (props) => {
 
   return (
     <>
-      <Stack
-        px={3}
-        py={3}
-        direction={"row"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        onClick={onOpen}
-        cursor={"text"}
-      >
-        <Stack direction={"row"} alignItems={"center"}>
-          <Avatar src={props.user.picture} size={["xs", "sm"]} />
-          <Text fontSize={[10, 12, 14]} color={"#616161"}>
-            Start a thread...
-          </Text>
-        </Stack>
-        <Button
-          w={[10, 12]}
-          h={[6, 7]}
-          fontSize={11}
-          border={"1px solid #616161"}
-          borderRadius={[10, 11]}
-          className={"darkBlack"}
+      {props.isHeader ? (
+        <>
+          <Button
+            w={100}
+            h={20}
+            position={"fixed"}
+            bottom={10}
+            right={10}
+            visibility={["hidden", "hidden", "hidden", "visible"]}
+            border={"1px solid #616161"}
+            borderRadius={15}
+            onClick={onOpen}
+          >
+            <Icon name={"plus"} size={8} />
+          </Button>
+          {!props.isFixed ? (
+            <Box display={["block", "block", "block", "none"]}>
+              <Button p={2} bg={"unset"} onClick={onOpen}>
+                <Icon name={"plus"} size={[4, 5, 6]} color={"white"} />
+              </Button>
+            </Box>
+          ) : null}
+        </>
+      ) : (
+        <Stack
+          px={3}
+          py={3}
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          onClick={onOpen}
+          cursor={"text"}
         >
-          Post
-        </Button>
-      </Stack>
+          <Stack direction={"row"} alignItems={"center"}>
+            <Avatar src={props.user.picture} size={["xs", "sm"]} />
+            <Text fontSize={[10, 12, 14]} color={"#616161"}>
+              Start a thread...
+            </Text>
+          </Stack>
+          <Button
+            w={[10, 12]}
+            h={[6, 7]}
+            fontSize={11}
+            border={"1px solid #616161"}
+            borderRadius={[10, 11]}
+            className={"darkBlack"}
+          >
+            Post
+          </Button>
+        </Stack>
+      )}
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalContent
           maxH={[1000]}

@@ -159,6 +159,58 @@ const postLike = async (req, res) => {
   }
 };
 
+const postRepliesByUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  try {
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    const postData = await Post.find({
+      replies: {
+        $elemMatch: { userId: user._id },
+      },
+    }).select("replies.text replies.userId replies.postedAt");
+
+    const filteredPosts = postData.map((post) => ({
+      ...post._doc,
+      replies: post.replies.filter((reply) => reply.userId.equals(user._id)),
+    }));
+
+    const replies = [];
+
+    for (let i = 0; i < filteredPosts.length; i++) {
+      const post = filteredPosts[i];
+      for (let j = 0; j < post.replies.length; j++) {
+        replies.push(post.replies[j]);
+      }
+    }
+
+    return res.json(replies);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
+
+const postRepostedByUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  try {
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    const postData = await Post.find({ repostedBy: user._id })
+      .lean()
+      .populate("postedBy", "username name picture");
+
+    return res.json(postData);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
+
 const postReply = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -239,13 +291,11 @@ const postReplyDelete = async (req, res) => {
       throw new Error("Reply not found!");
     }
 
-    console.log(userId + "\n" + reply.userId._id);
-
     if (reply.userId._id != userId) {
       throw new Error("Unauthorized!");
     }
 
-    await post.replies.findByIdAndDelete(replyId);
+    post.replies.pull({ _id: replyId });
 
     await post.save();
     return res.json({ status: 200, message: "Reply deleted!" });
@@ -333,6 +383,8 @@ export {
   postLike,
   postReply,
   postReplyLike,
+  postRepliesByUser,
+  postRepostedByUser,
   postReplyDelete,
   postSave,
   postDelete,

@@ -11,6 +11,8 @@ import {
   postedByUser,
   postReplyLike,
   postReplyDelete,
+  postRepliesByUser,
+  postRepostedByUser,
 } from "../controllers/postController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -23,6 +25,8 @@ router.get("/feed/:id", protectRoute, postFeed);
 router.put("/like/:id", protectRoute, postLike);
 router.put("/reply/:id", protectRoute, postReply);
 router.put("/replylike/:id/:id2", protectRoute, postReplyLike);
+router.get("/repliesuser/:id", protectRoute, postRepliesByUser);
+router.get("/repostsuser/:id", protectRoute, postRepostedByUser);
 router.delete("/replydelete/:id/:id2", protectRoute, postReplyDelete);
 router.put("/save/:id", protectRoute, postSave);
 router.delete("/:id", protectRoute, postDelete);

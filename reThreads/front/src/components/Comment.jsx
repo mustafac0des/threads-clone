@@ -72,7 +72,7 @@ const Comment = (props) => {
             <Stack direction={"row"}>
               <ActionButton
                 icon={"heart"}
-                count={props.replyBy.likes.length}
+                // count={props.replyBy.likes.length}
                 onClick={postReplyLike}
               />
               {props.replyBy.userId._id === props.userId ? (

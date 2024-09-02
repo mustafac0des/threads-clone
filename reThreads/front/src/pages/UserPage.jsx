@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {
+  Avatar,
   Container,
   Flex,
   Stack,
@@ -9,16 +10,23 @@ import {
   TabPanel,
   TabPanels,
   Center,
+  Box,
+  Text,
+  Link,
+  Divider,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 
 import UserHeader from "../components/UserHeader";
 import UserPost from "../components/UserPost";
+import Comment from "../components/Comment";
 
 const UserPage = (props) => {
   const [userData, setUserData] = useState(null);
   const [postData, setPostData] = useState(null);
+  const [repostData, setRepostData] = useState(null);
+  const [replyData, setReplyData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,12 +51,37 @@ const UserPage = (props) => {
 
       let post = await res.json();
 
+      res = await fetch(`/api/posts/repliesuser/${user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      let reply = await res.json();
+
       for (let i = 0; i < post.length; i++) {
         post[i].postedBy = user;
       }
 
-      console.log;
+      for (let i = 0; i < reply.length; i++) {
+        reply[i].userId = user;
+      }
 
+      res = await fetch(`/api/posts/repostsuser/${user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const reposts = await res.json();
+
+      console.log(reposts);
+
+      setRepostData(reposts);
+      console.log(repostData);
+      setReplyData(reply);
       setPostData(post);
       setIsLoading(false);
     };
@@ -107,10 +140,56 @@ const UserPage = (props) => {
               )}
             </TabPanel>
             <TabPanel>
-              <p>Replies</p>
+              {replyData.length > 0 ? (
+                <>
+                  {replyData.map((reply) => (
+                    <Comment
+                      key={reply._id}
+                      userId={props.user._id}
+                      replyBy={reply}
+                    />
+                  ))}
+                </>
+              ) : (
+                <Center m={5} color={"#616161"}>
+                  User has no replies!
+                </Center>
+              )}
             </TabPanel>
             <TabPanel>
-              <p>Reposts</p>
+              {repostData.map((post) => (
+                <>
+                  <Box
+                    as={Stack}
+                    width="full"
+                    direction="row"
+                    spacing={3}
+                    mt={5}
+                  >
+                    <Stack
+                      direction="column"
+                      alignItems="center"
+                      spacing={[1, 2, 3]}
+                    >
+                      <Stack direction="row" spacing={3} alignItems="center">
+                        <Avatar src={props.user.picture} size={["xs", "sm"]} />
+                        <Text fontWeight={600} color="#616161">
+                          {props.user.username} reposted
+                        </Text>
+                      </Stack>
+
+                      <Stack direction="row" spacing={3}>
+                        <Divider orientation="vertical" minH={"full"} />
+                        <UserPost
+                          key={post._id}
+                          userId={props.user._id}
+                          post={post}
+                        />
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </>
+              ))}
             </TabPanel>
           </TabPanels>
         </Tabs>
