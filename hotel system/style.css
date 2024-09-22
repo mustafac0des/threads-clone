@@ -47,12 +47,14 @@ body {
   align-items: center;
 }
 
+
 .headerBtn > a {
   padding-left: 10px;
   color: black;
   text-decoration: none;
   font-weight: 600;
   font-size: 12px;
+  margin: 10px;
 }
 
 .headerBtn > a:hover {
