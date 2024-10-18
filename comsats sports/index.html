@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS</title>
+  <style>
+    html {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary w-100" style=" position: fixed; left: 0; z-index: 100;">
+      <div class="container-fluid d-flex justify-content-around">
+        <a class="navbar-brand" href="#">COMSATS Sports</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav align-items-center me-auto">
+            <li class="nav-item mx-2">
+              <a class="nav-link" aria-current="page" href="#events">Upcoming Events</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link" href="#sports">Sports</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link" href="#contact">Contact Us</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item mx-1">
+              <button class="btn btn-warning rounded-pill" style="font-size: 0.6rem;">Email</button>
+            </li>
+            <li class="nav-item mx-1">
+              <button class="btn btn-warning rounded-pill" style="font-size: 0.6rem;">Call</button>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-warning rounded-pill" style="font-size: 0.6rem;">Search</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </nav>
+  </div>
+  <div
+    style="width: 100vw; height: 100vh; background-image: url(https://media.licdn.com/dms/image/v2/C4D1BAQHoEHC-yzXN5w/company-background_1536_768/company-background_1536_768/0/1583136451706?e=2147483647&v=beta&t=K0gHut7iyJhmpezArELJw7avywHMGz4pTwpFO8CzZWQ); background-size: cover;">
+    <div class="d-flex align-items-center justify-content-around"
+      style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.507);">
+      <div class="col-6 text-justify">
+        <p class="h1 text-light"><b>COMSATS Sports</b></p>
+        <p class="text-light text-justify">At COMSATS Islamabad, sports play a vital role in alleviating academic
+          pressures, with facilities for cricket, football, basketball, volleyball, and table tennis. The
+          state-of-the-art cricket ground promotes emerging talent, while students also engage in external tournaments
+          with other universities. Each semester features a Sports Week, showcasing competitions across various sports,
+          fostering healthy competition and sportsmanship. The cricket league tournament is a highlight, bringing
+          together teams from different departments to vie for the championship.</p>
+      </div>
+      <div class="col-4">
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner border border-warning rounded-5">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <img style="width: 800px; height: 400px; object-fit: cover"
+                src="https://images.unsplash.com/photo-1607627000458-210e8d2bdb1d?q=80&w=2049&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+              <img style="width: 800px; height: 400px; object-fit: cover"
+                src="https://images.unsplash.com/photo-1566932769119-7a1fb6d7ce23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" />
+            </div>
+            <div class="carousel-item">
+              <img style="width: 800px; height: 400px; object-fit: cover"
+                src="https://images.unsplash.com/photo-1593766787879-e8c78e09cbbe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" />
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="min-height: 85; background-color: rgba(0, 0, 0, 0.863);">
+    <p class="display-1 text-center text-warning" id="events">UPCOMING EVENTS</p>
+    <div class="d-flex flex-wrap align-items-center justify-content-center gap-2"
+      style="height: 85vh; background-image: url(https://images.unsplash.com/photo-1542868796-20f2ddc9d41f?w=300&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHN0dWRlbnRzJTIwc3BvcnRzfGVufDB8MHwwfHx8Mg%3D%3D); background-size: cover;">
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Opening Ceremony</h5>
+          <a href="#" class="btn btn-warning text-light">07/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1536463532082-3bc2cf9c2817?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHNwb3J0c3xlbnwwfDB8MHx8fDI%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Volleyball</h5>
+          <a href="#" class="btn btn-warning text-light">07/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1518407613690-d9fc990e795f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Basketball</h5>
+          <a href="#" class="btn btn-warning text-light">07/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1595207732481-22cccd3480fe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Cricket</h5>
+          <a href="#" class="btn btn-warning text-light">08/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1505748641491-f7ee2fd6fb4d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZvb3RiYWxsfGVufDB8MHwwfHx8Mg%3D%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Football</h5>
+          <a href="#" class="btn btn-warning text-light">09/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1588012646950-71779e6e4295?w=300&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRhbGVudHxlbnwwfDB8MHx8fDI%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Talent Show</h5>
+          <a href="#" class="btn btn-warning text-light">10/10/2024</a>
+        </div>
+      </div>
+      <div class="card" style="width: 20rem">
+        <img style="height: 160px; object-fit: cover"
+          src="https://images.unsplash.com/photo-1657830865846-082c77093b0f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        </svg>
+        <div class="card-body">
+          <h5 class="card-title">Treasure Hunt</h5>
+          <a href="#" class="btn btn-warning text-light">11/10/2024</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="min-height: 100vh; max-height: auto; background-color: rgba(0, 0, 0, 0.863);">
+    <p class="display-1 text-center text-warning" id="sports">SPORTS</p>
+    <div class="d-flex flex-wrap align-items-center justify-content-center gap-2"
+      style="background-image: url(https://images.unsplash.com/photo-1612197221405-f65574df9daf?w=300&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHN0dWRlbnRzJTIwc3BvcnRzfGVufDB8MHwwfHx8Mg%3D%3D); background-size: cover;">
+
+      <div class="container my-5 text-light">
+        <h2 class="text-warning text-center mb-4">COMSATS Sports Student Week Events</h2>
+
+        <h3 class="text-warning mt-4">Football</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1486286701208-1d58e9338013?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          Football holds a special place in the heart of the COMSATS Sports Society, and it's one of the highlight
+          events during our Sports Student Week. Each year, we bring together students from various disciplines to
+          showcase their skills, teamwork, and sportsmanship on the football field.
+        </p>
+
+        <h3 class="text-warning mt-4">Cricket</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1595210382266-2d0077c1f541?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          Cricket is a cornerstone of the COMSATS Sports Society, featuring prominently during the Sports Student Week.
+          The tournament brings together teams from various departments to compete on our top-notch cricket grounds.
+          This event not only highlights individual talents but also fosters teamwork and sportsmanship among students.
+        </p>
+
+        <h3 class="text-warning mt-4">Treasure Hunt</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1680994330269-993e90deeca3?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          The Treasure Hunt is a unique blend of adventure and teamwork, where participants solve clues and complete
+          challenges spread across the campus. This event encourages critical thinking and collaboration while promoting
+          a sense of exploration and excitement.
+        </p>
+
+        <h3 class="text-warning mt-4">Culture Day</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1629288465751-07e42186084f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          Culture Day celebrates the diverse backgrounds of our student body. Various cultural performances, food
+          stalls, and art displays showcase the rich traditions of different regions. This event is not only
+          entertaining but also promotes unity and understanding among students from various cultures.
+        </p>
+
+        <h3 class="text-warning mt-4">Opening and Closing Ceremonies</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1486286701208-1d58e9338013?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          The Sports Student Week kicks off with an electrifying Opening Ceremony, featuring speeches from faculty,
+          performances, and the unveiling of the week’s schedule. The Closing Ceremony wraps up the festivities with
+          award presentations, recognizing outstanding participants in various events. Both ceremonies are crucial in
+          building excitement and a sense of community among students.
+        </p>
+
+        <h3 class="text-warning mt-4">Talent Hunt</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px; object-fit: cover;"
+          src="https://images.unsplash.com/photo-1666533835045-3a1b3dfc3538?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="">
+        <p class="lead text-justify">
+          The Talent Hunt provides a platform for students to showcase their unique skills, be it singing, dancing, or
+          other performances. This event celebrates creativity and encourages students to step out of their comfort
+          zones, building confidence and camaraderie in the process.
+        </p>
+
+        <h3 class="text-warning mt-4">Conclusion</h3>
+        <img class="border border-warning rounded-4" style="width: 300px; height: 200px;"
+          src="https://images.unsplash.com/photo-1712735250687-da592ff9cd70?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dGVhY2hlcnN8ZW58MHx8MHx8fDI%3D"
+          alt="">
+        <p class="lead text-justify">
+          The COMSATS Sports Student Week is a vibrant celebration of sports, culture, and talent. From thrilling
+          competitions to cultural showcases, each event plays a vital role in fostering community spirit and enhancing
+          the overall student experience. Join us for a week full of excitement, learning, and unforgettable memories!
+        </p>
+      </div>
+    </div>
+
+    <p class="display-1 text-center text-warning" id="contact">CONTACT US</p>
+    <div style="height: 85vh; background-image: url(https://islamabad.comsats.edu.pk/assets/img/sports-facilties.jpg);">
+      <div class="container d-flex flex-wrap align-items-center justify-content-center"
+        style="height: 100%; background-color: rgba(0, 0, 0, 0.589);">
+        <p class="lead display-1 text-light">Got Anything Else to Say?</p>
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label text-light">Name</label>
+            <input type="text" class="form-control bg-warning" id="inputEmail4" placeholder="Mustafa AmanUllah">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label text-light">Registration Number</label>
+            <input type="text" class="form-control bg-warning" id="inputPassword4" placeholder="SP22-BSE-004">
+          </div>
+          <div class="col-md-12">
+            <label for="inputMessage" class="form-label text-light">Message</label>
+            <textarea class="form-control bg-warning" id="inputMessage" rows="4"
+              placeholder="Your message here..."></textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-warning text-light">SUBMIT</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
