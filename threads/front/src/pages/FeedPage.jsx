@@ -8,28 +8,46 @@ import FeedMenu from "../components/FeedMenu";
 import CreatePost from "../components/CreatePost";
 
 const FeedPage = (props) => {
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPosts = async () => {
-    const res = await fetch(`/api/posts/feed/${props.user._id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const res = await fetch(`/api/posts/feed/${props.user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    const data = await res.json();
-    setIsLoading(false);
-    setPost(data);
+      if (!res.ok) {
+        throw new Error("Failed to fetch posts");
+      }
+
+      const data = await res.json();
+
+      if (Array.isArray(data)) {
+        setPost(data);
+      } else if (Array.isArray(data.posts)) {
+        setPost(data.posts);
+      } else {
+        setPost([]); 
+      }
+
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Error fetching posts:", err.message);
+      setPost([]);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    return () => fetchPosts();
+    fetchPosts();
   }, []);
 
   if (isLoading) {
-    return <Box color={"#616161"}>Loading</Box>;
+    return <Box color={"#616161"}>Loading...</Box>;
   }
 
   return (
@@ -50,12 +68,14 @@ const FeedPage = (props) => {
           overflowY={"scroll"}
           style={{ scrollbarWidth: "none" }}
         >
-          {post != 0 ? (
-            <>
-              {post.map((post) => (
-                <UserPost key={post._id} userId={props.user._id} post={post} />
-              ))}
-            </>
+          {Array.isArray(post) && post.length > 0 ? (
+            post.map((postItem) => (
+              <UserPost
+                key={postItem._id}
+                userId={props.user._id}
+                post={postItem}
+              />
+            ))
           ) : (
             <Center m={5} color={"#616161"}>
               No Post Found!
